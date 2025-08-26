@@ -14,12 +14,12 @@ Estos mockups representan la propuesta visual moderna y la experiencia de usuari
 ## 🔗 Enlaces a los Mockups
 
 - **Mockups: Home, Menú principal, Categorías, Ofertas destacadas**  
-  [Ver mockups](PON_AQUI_EL_LINK)  
+  [Ver mockups](https://www.figma.com/design/LPRizpJ6zyi56dp81hTQu0/Sin-t%C3%ADtulo?node-id=0-1&t=cvkfUyoL3DcPPEbE-1)  
 
 - **Mockups: Login, Registro, Bienvenida.**  
   [Ver mockups](https://balsamiq.cloud/sk56pdi/pdim7qr)
-- **Mockups: Catálogo, Búsqueda, Filtros, Listado de productos**  
-  [Ver mockups](PON_AQUI_EL_LINK)  
+- **Mockups: Catálogo, Búsqueda, Filtros**  
+  [Ver mockups](https://www.figma.com/design/LPRizpJ6zyi56dp81hTQu0/Sin-t%C3%ADtulo?node-id=0-1&t=cvkfUyoL3DcPPEbE-1)  
 
 - **Mockups: Detalle producto, Carrito, Agregar/Quitar productos**  
   [Ver mockups](https://balsamiq.cloud/sgno1zh/pr81jyw/r2278)  
