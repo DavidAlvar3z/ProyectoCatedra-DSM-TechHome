@@ -22,7 +22,7 @@ Estos mockups representan la propuesta visual moderna y la experiencia de usuari
   [Ver mockups](PON_AQUI_EL_LINK)  
 
 - **Mockups: Detalle producto, Carrito, Agregar/Quitar productos**  
-  [Ver mockups](PON_AQUI_EL_LINK)  
+  [Ver mockups](https://balsamiq.cloud/sgno1zh/pr81jyw/r2278)  
 
 - **Mockups: Pago, Perfil usuario, Configuración**  
   [Ver mockups](PON_AQUI_EL_LINK)  
