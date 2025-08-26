@@ -16,9 +16,8 @@ Estos mockups representan la propuesta visual moderna y la experiencia de usuari
 - **Mockups: Home, Menú principal, Categorías, Ofertas destacadas**  
   [Ver mockups](PON_AQUI_EL_LINK)  
 
-- **Mockups: Login, Registro, Bienvenida, Recuperar contraseña**  
-  [Ver mockups](PON_AQUI_EL_LINK)  
-
+- **Mockups: Login, Registro, Bienvenida.**  
+  [Ver mockups](https://balsamiq.cloud/sk56pdi/pdim7qr)
 - **Mockups: Catálogo, Búsqueda, Filtros, Listado de productos**  
   [Ver mockups](PON_AQUI_EL_LINK)  
 
