@@ -1,47 +1,56 @@
-# 📱 HomeTech
+# 🎨 Mockups – Fase 1
 
-## 📌 Descripción corta
-HomeTech es una aplicación móvil en Kotlin que ofrece un catálogo digital de electrodomésticos, permitiendo a clientes consultar precios y disponibilidad, y a vendedores y administradores gestionar inventario y ventas en tiempo real.  
+Este apartado del proyecto contiene los **mockups iniciales** diseñados en **Figma/Balsamiq**, como parte de la primera fase del desarrollo de **HomeTech**.  
+Estos mockups representan la propuesta visual moderna y la experiencia de usuario de la aplicación.  
 
-## 📌 Descripción
-**HomeTech** es una aplicación móvil desarrollada en **Kotlin** cuyo propósito es modernizar la gestión y experiencia de compra en una tienda de electrodomésticos.  
-Actualmente, la tienda presenta dificultades por la falta de un catálogo digital, la gestión manual de inventarios y la demora en la atención al cliente.  
+---
 
-La app permitirá a los **clientes** explorar productos en un catálogo digital actualizado, mientras que los **administradores y vendedores** contarán con herramientas para gestionar inventarios y registrar ventas en tiempo real.  
+## 📌 Contenido
+- Capturas de las pantallas principales en formato de imagen.  
+- Enlaces organizados por grupos de pantallas del prototipo.  
 
-## 🎯 Objetivos
-- Desarrollar un catálogo digital con fotos, descripciones, precios y disponibilidad en tiempo real.  
-- Permitir a los clientes filtrar productos por categoría, marca y rango de precio.  
-- Facilitar a los administradores y vendedores un módulo de gestión de inventario (CRUD).  
-- Implementar un sistema de registro de ventas que actualice el stock automáticamente.  
-- Reducir tiempos de atención y errores en la gestión interna de la tienda.  
+---
 
-## 👥 Roles
-- **Clientes:** Exploran catálogo, consultan disponibilidad, buscan y filtran productos.  
-- **Vendedores:** Registran ventas y consultan inventario en tiempo real.  
-- **Administradores:** Gestionan productos, precios y stock mediante el módulo CRUD.  
+## 🔗 Enlaces a los Mockups
 
-## 📌 Beneficios Esperados
-- Mejor experiencia de compra para los clientes.  
-- Mayor control y precisión en la gestión de inventarios.  
-- Reducción del tiempo de atención al cliente y de los errores en ventas.  
-- Incremento de la competitividad y de las ventas de la tienda.  
+- **Mockups: Home, Menú principal, Categorías, Ofertas destacadas**  
+  [Ver mockups](PON_AQUI_EL_LINK)  
 
-## 🛠️ Herramientas Tecnológicas
-- **Lenguaje principal:** Kotlin  
-- **Entorno de desarrollo:** Android Studio  
-- **Gestión ágil del proyecto:** Scrum  
-- **Base de datos:** [A definir: SQLite / Firebase / MySQL con API]  
+- **Mockups: Login, Registro, Bienvenida.**  
+  [Ver mockups](https://balsamiq.cloud/sk56pdi/pdim7qr)
+- **Mockups: Catálogo, Búsqueda, Filtros, Listado de productos**  
+  [Ver mockups](PON_AQUI_EL_LINK)  
 
-## 👨‍💻 Equipo de Desarrollo
-- Waldo José Pérez Aguillon – Programador Frontend/Backend  
-- Camila Elizabeth Castillo Joya – Programadora Frontend/Backend  
-- David Alejandro Alvarez Moreira – Programador Frontend/Backend  
-- Caleb Alejandro Peñate Deras – Programador Frontend/Backend  
-- Ashley Gabriela Valdez González – Programadora Frontend/Backend   
+- **Mockups: Detalle producto, Carrito, Agregar/Quitar productos**  
+  [Ver mockups](PON_AQUI_EL_LINK)  
 
-## 📄 Licencia
-Este proyecto está bajo la licencia **Apache License 2.0**.  
-Puedes usar, modificar y distribuir este software de manera libre, siempre y cuando incluyas una copia de la licencia original y mantengas los avisos de copyright.  
+- **Mockups: Pago, Perfil usuario, Configuración**  
+  [Ver mockups](PON_AQUI_EL_LINK)  
 
-Para más detalles consulta el archivo [LICENSE](https://www.apache.org/licenses/LICENSE-2.0).
+---
+
+## 🎨 Paleta de Colores
+
+| Color | Hex |
+|-------|------|
+| 🟣 Violeta | `#8A31F5` |
+| 🔵 Celeste | `#8FAEFD` |
+| ⚪ Gris Claro | `#EBEBEB` |
+| 🔴 Rojo Claro | `#FF5252` |
+| ⚫ Negro | `#000000` |
+
+---
+
+## 🎯 Objetivo de esta fase
+- Validar la propuesta visual y de experiencia de usuario.  
+- Definir la navegación y flujo entre pantallas.  
+- Establecer la base estética para el desarrollo en **Kotlin**.  
+
+---
+
+## ⚖️ Licencia
+Este proyecto, incluyendo los mockups de esta fase, está licenciado bajo los términos de la **[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)**.  
+
+---
+
+📌 *Nota: Esta rama solo contiene mockups (prototipos de diseño) y no incluye código funcional.*  
