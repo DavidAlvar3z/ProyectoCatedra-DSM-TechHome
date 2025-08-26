@@ -1,6 +1,6 @@
 # 🎨 Mockups – Fase 1
 
-Este apartado del proyecto contiene los **mockups iniciales** diseñados en **Figma/Balsamiq**, como parte de la primera fase del desarrollo de **HomeTech**.  
+Este apartado del proyecto contiene los **mockups iniciales** diseñados en **Figma/Balsamiq**, como parte de la primera fase del desarrollo de **TechHome**.  
 Estos mockups representan la propuesta visual moderna y la experiencia de usuario de la aplicación.  
 
 ---
