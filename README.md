@@ -24,9 +24,6 @@ Estos mockups representan la propuesta visual moderna y la experiencia de usuari
 - **Mockups: Detalle producto, Carrito, Agregar/Quitar productos**  
   [Ver mockups](https://balsamiq.cloud/sgno1zh/pr81jyw/r2278)  
 
-- **Mockups: Pago, Perfil usuario, Configuración**  
-  [Ver mockups](PON_AQUI_EL_LINK)  
-
 ---
 
 ## 🎨 Paleta de Colores
