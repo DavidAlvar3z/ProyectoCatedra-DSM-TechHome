@@ -1,18 +1,15 @@
 # 📱 TechHome
 
 ## 📌 Descripción corta
-
 TechHome es una aplicación móvil en Kotlin que ofrece un catálogo digital de electrodomésticos, permitiendo a clientes consultar precios y disponibilidad, y a vendedores y administradores gestionar inventario y ventas en tiempo real.
 
 ## 📌 Descripción
-
 TechHome es una aplicación móvil desarrollada en Kotlin cuyo propósito es modernizar la gestión y experiencia de compra en una tienda de electrodomésticos.
 Actualmente, la tienda presenta dificultades por la falta de un catálogo digital, la gestión manual de inventarios y la demora en la atención al cliente.
 
 La app permitirá a los clientes explorar productos en un catálogo digital actualizado, mientras que los administradores y vendedores contarán con herramientas para gestionar inventarios y registrar ventas en tiempo real.
 
 ## 🎯 Objetivos
-
 - Desarrollar un catálogo digital con fotos, descripciones, precios y disponibilidad en tiempo real.
 - Permitir a los clientes filtrar productos por categoría, marca y rango de precio.
 - Facilitar a los administradores y vendedores un módulo de gestión de inventario (CRUD).
@@ -20,20 +17,17 @@ La app permitirá a los clientes explorar productos en un catálogo digital actu
 - Reducir tiempos de atención y errores en la gestión interna de la tienda.
 
 ## 👥 Roles
-
 - Clientes: Exploran catálogo, consultan disponibilidad, buscan y filtran productos.
 - Vendedores: Registran ventas y consultan inventario en tiempo real.
 - Administradores: Gestionan productos, precios y stock mediante el módulo CRUD.
 
 ## 📌 Beneficios Esperados
-
 - Mejor experiencia de compra para los clientes.
 - Mayor control y precisión en la gestión de inventarios.
 - Reducción del tiempo de atención al cliente y de los errores en ventas.
 - Incremento de la competitividad y de las ventas de la tienda.
 
 ## 🛠️ Herramientas Tecnológicas
-
 Para garantizar un desarrollo eficiente, organizado y de alta calidad de la aplicación móvil TechHome, se utilizarán las siguientes tecnologías y herramientas, clasificadas según su propósito:
 
 1. Entorno de desarrollo integrado (IDE)
@@ -57,6 +51,7 @@ IDE principal para el desarrollo en Kotlin. Permite codificación, diseño de in
 
 5. Gestión de tareas y planificación
 - Trello – Organización de tareas, asignación de responsables y seguimiento de sprints.
+  Link del tablero: https://trello.com/invite/b/68ab4256a40f6f021225983d/ATTIc5a8a6c9605b18540b91344929eda0adDA2DEEFA/dsm-proyecto-de-catedra-fase-1-fase-2
 - Notion (a considerar) – Documentación y seguimiento de tareas más detallado, con integración de bases de conocimiento del proyecto.
 
 6. Pruebas y calidad
@@ -69,6 +64,16 @@ IDE principal para el desarrollo en Kotlin. Permite codificación, diseño de in
 - Figma (opcional) – Prototipos interactivos y colaboración en diseño de UI moderna.
 - Adobe XD (a considerar) – Alternativa avanzada para prototipado y pruebas de usabilidad.
 
+📌 Mockups (rama dedicada en el repositorio: "mockups")
+- Home, Menú principal, Categorías, Ofertas destacadas  
+  Link: https://www.figma.com/design/LPRizpJ6zyi56dp81hTQu0/Sin-t%C3%ADtulo?node-id=0-1&t=cvkfUyoL3DcPPEbE-1
+- Login, Registro, Bienvenida  
+  Link: https://balsamiq.cloud/sk56pdi/pdim7qr
+- Catálogo, Búsqueda, Filtros  
+  Link: https://www.figma.com/design/LPRizpJ6zyi56dp81hTQu0/Sin-t%C3%ADtulo?node-id=0-1&t=cvkfUyoL3DcPPEbE-1
+- Detalle producto, Carrito, Agregar/Quitar productos  
+  Link: https://balsamiq.cloud/sgno1zh/pr81jyw/r2278
+
 8. Comunicaciones y documentación
 - Google Drive / OneDrive – Respaldo de documentación y entregables.
 - Slack / Discord (opcional) – Comunicación rápida y coordinación del equipo.
@@ -80,7 +85,6 @@ IDE principal para el desarrollo en Kotlin. Permite codificación, diseño de in
 - OAuth2 (a considerar) – Para integración futura de login con cuentas externas (Google, Facebook).
 
 ## 👨‍💻 Equipo de Desarrollo
-
 - Waldo José Pérez Aguillon – Programador Frontend/Backend
 - Camila Elizabeth Castillo Joya – Programadora Frontend/Backend
 - David Alejandro Alvarez Moreira – Programador Frontend/Backend
@@ -88,8 +92,13 @@ IDE principal para el desarrollo en Kotlin. Permite codificación, diseño de in
 - Ashley Gabriela Valdez González – Programadora Frontend/Backend
 
 ## 📄 Licencia
-
 Este proyecto está bajo la licencia Apache License 2.0.
 Puedes usar, modificar y distribuir este software de manera libre, siempre y cuando incluyas una copia de la licencia original y mantengas los avisos de copyright.
 
 Para más detalles consulta el archivo LICENSE: https://www.apache.org/licenses/LICENSE-2.0
+
+
+---
+
+¿Quieres que te lo deje ya como archivo README.txt descargable o lo subes vos directo al repo?
+
