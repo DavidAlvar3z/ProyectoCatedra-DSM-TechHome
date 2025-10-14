@@ -66,10 +66,8 @@ El objetivo es permitir que los usuarios se registren, inicien sesión con su cu
 | **Lenguaje** | Kotlin |
 | **IDE** | Android Studio Narwal 2025.1.1 |
 | **Autenticación** | Firebase Authentication |
-| **Diseño UI** | XML clásico (basado en wireframes de Balsamiq) |
-| **Gestión de estados** | SharedPreferences (sesión persistente) |
+| **Diseño UI** | XML clásico |
 | **Control de versiones** | Git + GitHub |
-| **Diseño de prototipos** | Balsamiq Cloud |
 
 ---
 
@@ -81,35 +79,6 @@ El objetivo es permitir que los usuarios se registren, inicien sesión con su cu
 - **Cierre de sesión:** mediante menú o botón "Cerrar sesión".
 
 ---
-
-## 🎨 Mockups de referencia
-Los diseños fueron realizados en **Balsamiq** y guían la interfaz de usuario:
-
-- [🧾 Registro](https://balsamiq.cloud/sk56pdi/pdim7qr)
-- [🔑 Inicio de sesión](https://balsamiq.cloud/sk56pdi/pdim7qr)
-- [🏠 Bienvenida](https://balsamiq.cloud/sk56pdi/pdim7qr)
-
----
-
-## 💻 Cómo ejecutar el módulo
-
-1. Clona el repositorio:
-   ```bash
-   git clone https://github.com/DavidAlvar3z/ProyectoCatedra-DSM-TechHome.git
-   ```
-
-2. Cambia a la rama de desarrollo:
-   ```bash
-   git checkout Auth-and-welcome-ui
-   ```
-
-3. Abre el proyecto en **Android Studio**.
-
-4. Configura Firebase:
-   * Ve a **Tools → Firebase → Authentication**.
-   * Vincula el proyecto y habilita "Email/Password" y "Google".
-
-5. Ejecuta en un emulador o dispositivo físico.
 
 ---
 
