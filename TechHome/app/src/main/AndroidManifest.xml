@@ -2,9 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permisos de Internet -->
+    <!-- Permisos -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
         android:allowBackup="true"
@@ -15,57 +18,73 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TechHome"
-        android:enableOnBackInvokedCallback="true"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <!-- LoginActivity - Punto de entrada de la aplicación -->
+        <!-- Splash/Login Activity (LAUNCHER) -->
         <activity
             android:name=".activities.LoginActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:theme="@style/Theme.TechHome.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- OptionsActivity -->
-        <activity
-            android:name=".activities.OptionsActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <!-- RegisterActivity -->
+        <!-- Auth Activities -->
         <activity
             android:name=".activities.RegisterActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:theme="@style/Theme.TechHome.NoActionBar" />
 
-        <!-- WelcomeActivity - Pantalla principal después del login -->
+        <activity
+            android:name=".activities.OptionsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.TechHome.NoActionBar" />
+
+        <!-- Welcome Activity (Home) -->
         <activity
             android:name=".activities.WelcomeActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:theme="@style/Theme.TechHome" />
 
-        <!-- ProductsActivity - Lista de productos por categoría -->
+        <!-- Products Activities -->
         <activity
             android:name=".activities.ProductsActivity"
-            android:parentActivityName=".activities.WelcomeActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".activities.WelcomeActivity"
+            android:theme="@style/Theme.TechHome" />
 
-        <!-- ProductDetailActivity - Detalle del producto con stock ⭐ -->
         <activity
             android:name=".activities.ProductDetailActivity"
-            android:parentActivityName=".activities.ProductsActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".activities.ProductsActivity"
+            android:theme="@style/Theme.TechHome" />
 
-        <!-- ProfileActivity - Perfil del usuario -->
+        <!-- Search Activity -->
+        <activity
+            android:name=".activities.SearchActivity"
+            android:exported="false"
+            android:theme="@style/Theme.TechHome.NoActionBar"
+            android:windowSoftInputMode="adjustResize|stateVisible" />
+
+        <!-- Profile Activity -->
         <activity
             android:name=".activities.ProfileActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:theme="@style/Theme.TechHome" />
+
+        <!-- Cart Activity -->
+        <activity
+            android:name=".activities.CartActivity"
+            android:exported="false"
+            android:theme="@style/Theme.TechHome" />
+
+        <!-- Google Sign-In Metadata -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
     </application>
 

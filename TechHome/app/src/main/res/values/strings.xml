@@ -1,58 +1,61 @@
 <resources>
     <string name="app_name">TechHome</string>
 
-    <!-- Web Client ID para Google Sign-In -->
-    <string name="default_web_client_id">512592380297-ot170mlop919k4j9n0415qp69ejvqnr5.apps.googleusercontent.com</string>
-
-    <!-- General -->
+    <!-- Autenticación -->
     <string name="close">Cerrar</string>
     <string name="app_logo">Logo de la aplicación</string>
-
-    <!-- Login Screen -->
-    <string name="login_title">Iniciar sesión con correo electrónico</string>
-    <string name="email_hint">Correo</string>
-    <string name="password_hint">Contraseña</string>
-    <string name="login_button">Iniciar Sesión</string>
-    <string name="need_account">¿Necesitas una cuenta?</string>
-
-    <!-- Options Screen -->
-    <string name="register_with_email">Registrarse con correo electrónico</string>
-    <string name="continue_with_google">Continuar con Google</string>
-    <string name="already_have_account">¿Ya posees una cuenta?</string>
-    <string name="legal_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam efficitur libero et ligula viverra.</string>
-
-    <!-- Register Screen -->
-    <string name="create_account">Crear una cuenta</string>
+    <string name="register_with_email">Registrarse con Email</string>
+    <string name="already_have_account">¿Ya tienes cuenta?</string>
+    <string name="legal_text">Al registrarte, aceptas nuestros Términos de Servicio y Política de Privacidad</string>
+    <string name="create_account">Crear Cuenta</string>
     <string name="name_hint">Nombre</string>
     <string name="lastname_hint">Apellido</string>
+    <string name="email_hint">Correo electrónico</string>
+    <string name="password_hint">Contraseña</string>
     <string name="register_button">Registrarse</string>
-    <string name="terms_text">By signing up, you agree with the Terms of Service and Privacy Policy</string>
+    <string name="terms_text">Al registrarte, aceptas nuestros Términos y Condiciones</string>
 
-    <!-- Welcome Screen -->
-    <string name="welcome_message">Welcome, to HomeTech</string>
-    <string name="featured_image">Imagen destacada</string>
-    <string name="learn_more">Learn more</string>
-    <string name="shipping_info">about 2-day shipping.</string>
-    <string name="browse">Navegar</string>
-    <string name="keep_browsing">Keep browsing</string>
-    <string name="shopping">Compras</string>
-    <string name="keep_shopping">Keep shopping f</string>
-    <string name="explore">Explorar</string>
-    <string name="explore_more">Explore mo</string>
+    <!-- Navegación -->
+    <string name="home">Inicio</string>
+    <string name="search">Buscar</string>
+    <string name="cart">Carrito</string>
+    <string name="profile">Perfil</string>
 
-    <!-- Profile Screen -->
-    <string name="my_profile">Mi Perfil</string>
-    <string name="edit_profile">Editar Perfil</string>
-    <string name="save_changes">Guardar Cambios</string>
-    <string name="logout">Cerrar Sesión</string>
-    <string name="profile_photo">Foto de perfil</string>
-    <string name="change_photo">Cambiar foto</string>
-    <string name="personal_info">Información Personal</string>
-    <string name="name">Nombre</string>
-    <string name="lastname">Apellido</string>
-    <string name="email">Email</string>
-    <string name="age">Edad</string>
-    <string name="gender">Sexo</string>
-    <string name="phone">Teléfono</string>
-    <string name="bio">Biografía</string>
+    <!-- Productos -->
+    <string name="sync_products">Sincronizar Productos</string>
+    <string name="no_products">No hay productos disponibles</string>
+    <string name="loading_products">Cargando productos…</string>
+    <string name="all_products_loaded">Todos los productos han sido cargados</string>
+
+    <!-- Búsqueda -->
+    <string name="search_hint">Buscar productos…</string>
+    <string name="filters">Filtros</string>
+    <string name="apply_filters">Aplicar filtros</string>
+    <string name="clear_filters">Limpiar filtros</string>
+    <string name="no_results">No se encontraron resultados</string>
+    <string name="price_range">Rango de precio</string>
+    <string name="categories">Categorías</string>
+    <string name="sort_by">Ordenar por</string>
+    <string name="in_stock_only">Solo en stock</string>
+    <string name="min_rating">Calificación mínima</string>
+
+    <!-- Categorías -->
+    <string name="phones">Teléfonos</string>
+    <string name="laptops">Laptops</string>
+    <string name="audio">Audio</string>
+    <string name="smartwatches">Smartwatches</string>
+    <string name="tablets">Tablets</string>
+    <string name="cameras">Cámaras</string>
+    <string name="tv">Televisores</string>
+    <string name="gaming">Gaming</string>
+    <string name="pc_accessories">Accesorios PC</string>
+    <string name="wearable_tech">Tech Wearable</string>
+    <string name="smart_home">Smart Home</string>
+    <string name="headphones">Audífonos</string>
+    <string name="speakers">Bocinas</string>
+    <string name="monitors">Monitores</string>
+
+    <!-- Carrito -->
+    <string name="empty_cart">Tu carrito está vacío</string>
+    <string name="start_shopping">Explorar Productos</string>
 </resources>
