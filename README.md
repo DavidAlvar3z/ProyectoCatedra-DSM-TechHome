@@ -1,115 +1,201 @@
-# 🔐 TechHome – Autenticación y Pantalla de Bienvenida
+# 🛍️ TechHome - Parte 2: Productos y Perfil de Usuario
+**Desarrollado por: Ashley Valdez**
 
-<div align="center">
-
-![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
-![Android Studio](https://img.shields.io/badge/Android%20Studio-3DDC84?style=for-the-badge&logo=androidstudio&logoColor=white)
+![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github)
+![Retrofit](https://img.shields.io/badge/Retrofit-48B983?style=for-the-badge&logo=square&logoColor=white)
+![Glide](https://img.shields.io/badge/Glide-00C4CC?style=for-the-badge&logo=android&logoColor=white)
 
-![Status](https://img.shields.io/badge/Status-En%20Desarrollo-yellow?style=for-the-badge)
-![Branch](https://img.shields.io/badge/Branch-Auth--and--welcome--ui-blue?style=for-the-badge)
-![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen?style=for-the-badge)
+## 📋 Descripción
+Segunda fase del desarrollo de TechHome, enfocada en la experiencia de compra del usuario. Esta parte incluye el catálogo completo de productos, gestión de inventario, perfil de usuario y toda la funcionalidad core del e-commerce.
 
-</div>
+## ✨ Características Implementadas
 
-## 📌 Descripción corta
-Esta rama implementa el **flujo de autenticación** (registro e inicio de sesión) y la **pantalla de bienvenida** de la aplicación **TechHome**.  
-El objetivo es permitir que los usuarios se registren, inicien sesión con su cuenta (correo o Google) y sean redirigidos a la interfaz principal de bienvenida.
+### 🏠 Pantalla de Bienvenida
+- ✅ Header con gradiente personalizado
+- ✅ Grid de 4 categorías con diseños únicos
+- ✅ Navegación inferior funcional
+- ✅ Card de bienvenida con info del usuario
 
----
+### 📦 Sistema de Productos
+- ✅ Listado de productos en grid (2 columnas)
+- ✅ Sincronización con Best Buy API
+- ✅ Almacenamiento local en Firestore
+- ✅ Gestión de inventario y stock
+- ✅ Estados visuales de disponibilidad
+- ✅ Chips de descuento y stock
+- ✅ Ratings y reseñas
 
-## 📱 Pantallas desarrolladas
+### 🔍 Detalle de Producto
+- ✅ Vista completa con toda la información
+- ✅ Imágenes de alta calidad
+- ✅ Información de marca y modelo
+- ✅ Cálculo automático de descuentos
+- ✅ Estados de stock en tiempo real
+- ✅ Botón "Agregar al carrito"
+- ✅ Botón "Comprar ahora" con reducción de stock
+- ✅ Enlace directo a Best Buy
 
-| Paso | Pantalla | Descripción |
-|------|-----------|-------------|
-| 1️⃣ | **Iniciar sesión** | Permite al usuario ingresar con correo y contraseña o mediante cuenta de Google. |
-| 2️⃣ | **Registrarse** | Permite crear una cuenta con nombre, apellido, correo y contraseña. Incluye validaciones de campos y confirmación visual. |
-| 3️⃣ | **Bienvenida** | Muestra el mensaje de bienvenida y navegación principal tras autenticación exitosa. |
+### 👤 Perfil de Usuario
+- ✅ Foto de perfil personalizada
+- ✅ Subida de imágenes a Firebase Storage
+- ✅ Formulario completo de información personal
+- ✅ Campos: nombre, apellido, edad, sexo, teléfono, biografía
+- ✅ Validaciones de campos
+- ✅ Guardado en Firestore
+- ✅ Opción de cerrar sesión
 
----
+### 🎨 Adaptadores Personalizados
+- ✅ ProductAdapter para API de Best Buy
+- ✅ ProductLocalAdapter con gestión de stock
+- ✅ ViewHolders optimizados
+- ✅ Carga de imágenes con Glide
+- ✅ Formateo de precios y fechas
 
-## 🎯 Objetivos principales
-- Implementar **autenticación funcional** usando **Firebase Authentication** (correo/contraseña y Google).
-- Diseñar las pantallas basadas en los **mockups de Balsamiq**.
-- Validar los campos de entrada (correo, contraseña, etc.).
-- Gestionar la navegación entre las pantallas de registro, login y bienvenida.
-- Mantener la sesión activa hasta cierre manual o expiración.
+## 🛠️ Tecnologías Utilizadas
 
----
+### Frontend
+- **UI Framework:** Material Design 3
+- **Layouts:** ConstraintLayout, CardView, RecyclerView
+- **Componentes:** Chips, FAB, BottomNavigationView
+- **Imágenes:** Glide para carga eficiente
 
-## 🧩 Estructura del módulo
+### Backend
+- **Base de datos:** Cloud Firestore
+- **Almacenamiento:** Firebase Storage
+- **API Externa:** Best Buy Products API
+- **Networking:** Retrofit 2 + OkHttp3
 
+### Arquitectura
+- **Patrón:** Repository Pattern
+- **Manejo de estado:** LiveData-like callbacks
+- **Transacciones:** Firestore Transactions para stock
+
+## 📱 Pantallas Implementadas
+
+1. **WelcomeActivity** - Dashboard con categorías
+2. **ProductsActivity** - Listado de productos por categoría
+3. **ProductDetailActivity** - Detalle completo del producto
+4. **ProfileActivity** - Perfil de usuario editable
+
+## 🎯 Funcionalidades Destacadas
+
+### 🔄 Sincronización Inteligente
+- Productos se sincronizan desde Best Buy
+- Se guardan localmente en Firestore
+- Generación automática de metadatos
+- Stock aleatorio para simulación
+
+### 📊 Gestión de Inventario
+- Estados: En Stock, Pocas Unidades, Agotado
+- Reducción de stock con transacciones
+- Umbral de stock bajo configurable
+- Validaciones de disponibilidad
+
+### 💰 Sistema de Precios
+- Precio regular y precio de oferta
+- Cálculo automático de porcentaje de descuento
+- Formato de moneda USD
+- Visualización de ahorros
+
+### ⭐ Sistema de Calificaciones
+- Ratings de 1 a 5 estrellas
+- Conteo de reseñas
+- Generación aleatoria para demo
+
+## 🔧 Configuración
+
+### Prerrequisitos
+- Android Studio Hedgehog o superior
+- Kotlin 1.9+
+- SDK mínimo: 24 (Android 7.0)
+- SDK objetivo: 34 (Android 14)
+
+### Setup
+1. Clonar el repositorio
+2. Checkout a la rama `products-and-profile-ui`
+3. Agregar `google-services.json`
+4. Configurar API Key de Best Buy en `BestBuyApiService.kt`
+5. Sincronizar Gradle
+6. Ejecutar en dispositivo/emulador
+
+## 📂 Estructura de Archivos
 ```
-📂 app/
-┣ 📂 java/com/techhome/
-┃ ┣ 📂 auth/
-┃ ┃ ┣ LoginActivity.kt
-┃ ┃ ┣ RegisterActivity.kt
-┃ ┃ ┗ WelcomeActivity.kt
-┃ ┗ 📂 utils/
-┃   ┗ ValidationUtils.kt
-┣ 📂 res/layout/
-┃ ┣ activity_login.xml
-┃ ┣ activity_register.xml
-┃ ┗ activity_welcome.xml
-┗ AndroidManifest.xml
+app/src/main/
+├── java/com/techhome/
+│   ├── activities/
+│   │   ├── WelcomeActivity.kt
+│   │   ├── ProductsActivity.kt
+│   │   ├── ProductDetailActivity.kt
+│   │   └── ProfileActivity.kt
+│   ├── adapters/
+│   │   ├── ProductAdapter.kt
+│   │   └── ProductLocalAdapter.kt
+│   ├── models/
+│   │   ├── ProductLocal.kt
+│   │   └── StockStatus.kt
+│   ├── network/
+│   │   └── BestBuyApiService.kt
+│   └── repository/
+│       └── ProductRepository.kt
+├── res/
+│   ├── layout/
+│   │   ├── activity_welcome.xml
+│   │   ├── activity_products.xml
+│   │   ├── activity_product_detail.xml
+│   │   ├── activity_profile.xml
+│   │   ├── item_product.xml
+│   │   └── item_product_local.xml
+│   ├── menu/
+│   │   └── bottom_nav_menu.xml
+│   └── drawable/
+│       └── (todos los iconos y gradientes)
 ```
 
----
+## 🎨 Categorías Disponibles
 
-## 🛠️ Tecnologías utilizadas
+| Categoría | ID Best Buy | Icono | Gradiente |
+|-----------|-------------|-------|-----------|
+| 📱 Teléfonos | `abcat0800000` | ic_smartphone | Morado-Azul |
+| 💻 Laptops | `abcat0502000` | ic_laptop | Verde |
+| 🎧 Audio | `abcat0200000` | ic_headset | Amarillo-Rosa |
+| ⌚ Smartwatches | `pcmcat748302045979` | ic_watch | Azul-Rosa |
 
-| Tipo | Herramienta / Tecnología |
-|------|---------------------------|
-| **Lenguaje** | Kotlin |
-| **IDE** | Android Studio Narwal 2025.1.1 |
-| **Autenticación** | Firebase Authentication |
-| **Diseño UI** | XML clásico |
-| **Control de versiones** | Git + GitHub |
+## 📈 Mejoras Futuras
 
----
+- [ ] Implementar carrito de compras funcional
+- [ ] Sistema de favoritos
+- [ ] Historial de compras
+- [ ] Búsqueda y filtros avanzados
+- [ ] Notificaciones push
+- [ ] Pasarela de pago
+- [ ] Reviews y comentarios de usuarios
 
-## 🧠 Lógica implementada
-- **Registro de usuarios:** creación de cuenta con validaciones (campos vacíos, formato de correo, longitud de contraseña).
-- **Inicio de sesión:** validación de credenciales con Firebase y manejo de errores.
-- **Inicio con Google:** integración con Firebase Google Sign-In (opcional).
-- **Redirección automática:** si el usuario ya está autenticado, pasa directamente a la pantalla de bienvenida.
-- **Cierre de sesión:** mediante menú o botón "Cerrar sesión".
+## 🐛 Debugging
 
----
+Los logs están habilitados en:
+- `ProductRepository`: Tag "ProductRepository"
+- `ProfileActivity`: Tag "ProfileActivity"
+- Retrofit HTTP Logging: BODY level
 
----
+## 👤 Desarrolladora
 
-## 👨‍💻 Desarrollador
+**Ashley Valdez**
+- Commits: 16-30
+- Enfoque: E-commerce, UI/UX, Gestión de Productos, Perfil
 
-<table>
-  <tr>
-    <td align="center">
-      <img src="https://img.shields.io/badge/Developer-Full%20Stack-blue?style=flat-square" alt="Dev Badge"/><br />
-      <b>David Alejandro Álvarez Moreira</b><br />
-      <sub>UI, Autenticación y Lógica de negocio</sub>
-    </td>
-  </tr>
-</table>
+## 🤝 Integración con Parte 1
 
----
-
-## 📄 Licencia
-
-![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=for-the-badge)
-
-Este módulo forma parte del proyecto **TechHome**, bajo la licencia **Apache License 2.0**.  
-Consulta más información en [https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)
+Esta parte se integra perfectamente con la infraestructura creada por David Alvarez:
+- ✅ Usa los modelos de datos definidos
+- ✅ Se conecta con Firebase Auth
+- ✅ Utiliza el ProductRepository
+- ✅ Mantiene el diseño Material Design 3
+- ✅ Sigue los mismos patrones de arquitectura
 
 ---
 
-<div align="center">
-
-**Desarrollado con ❤️ por el equipo TechHome**
-
-![Kotlin](https://img.shields.io/badge/Made%20with-Kotlin-7F52FF?style=flat-square&logo=kotlin&logoColor=white)
-![Android](https://img.shields.io/badge/Built%20for-Android-3DDC84?style=flat-square&logo=android&logoColor=white)
-
-</div>
+**Fecha de inicio:** Octubre 2 - Octubre 10 (2025)
+**Estado:** ✅ Fase 2 Completada  
+**Rama:** `products-and-profile-ui`
