@@ -4,68 +4,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA"
+    android:background="#FFFFFF"
     tools:context=".activities.WelcomeActivity">
 
-    <!-- Header con gradiente -->
+    <!-- Header con gradiente mejorado -->
     <View
         android:id="@+id/vHeaderBackground"
         android:layout_width="0dp"
-        android:layout_height="220dp"
+        android:layout_height="240dp"
         android:background="@drawable/gradient_header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Barra superior -->
+    <!-- Barra superior moderna -->
     <LinearLayout
         android:id="@+id/llTopBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/ic_home"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:contentDescription="Logo"
+            android:src="@drawable/ic_home"
             app:tint="@android:color/white" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
             android:layout_weight="1"
-            android:layout_marginStart="12dp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.02"
             android:text="HomeTech"
             android:textColor="@android:color/white"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/btnNotifications"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@android:color/transparent"
             android:contentDescription="Notificaciones"
             android:src="@drawable/ic_notifications"
             app:tint="@android:color/white" />
     </LinearLayout>
 
-    <!-- Card de bienvenida -->
+    <!-- Card de bienvenida con glassmorphism -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cvWelcome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/llTopBar">
@@ -73,44 +79,50 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="24dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
                 android:text="¡Hola! 👋"
-                android:textColor="@android:color/black"
-                android:textSize="24sp"
+                android:textColor="#1A1A1A"
+                android:textSize="28sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvWelcomeMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="6dp"
+                android:fontFamily="sans-serif-medium"
                 android:text="Bienvenido a HomeTech"
                 android:textColor="@color/purple_600"
-                android:textSize="16sp"
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvUserEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@android:color/darker_gray"
+                android:layout_marginTop="6dp"
+                android:alpha="0.7"
+                android:textColor="#666666"
                 android:textSize="14sp"
                 tools:text="usuario@ejemplo.com" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- ScrollView para contenido -->
-    <ScrollView
+    <!-- SCROLL CON LÍMITES -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true"
+        android:layout_marginTop="8dp"
+        android:clipToPadding="false"
+        android:fillViewport="false"
+        android:overScrollMode="never"
+        android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@id/llBottomNav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -120,26 +132,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="16dp">
+            android:paddingBottom="20dp">
 
-            <!-- Sección de categorías -->
+            <!-- Sección de categorías moderna -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="16dp"
                 android:gravity="center_vertical"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="12dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="sans-serif-medium"
                     android:text="Explora por categorías"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
+                    android:textColor="#1A1A1A"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -149,198 +162,34 @@
                     app:tint="@color/purple_600" />
             </LinearLayout>
 
-            <!-- Grid de categorías en 2 columnas -->
-            <LinearLayout
+            <!-- RecyclerView de categorías -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCategories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
-
-                <!-- Fila 1: Teléfonos y Laptops -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <!-- Teléfonos -->
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardPhones"
-                        android:layout_width="0dp"
-                        android:layout_height="160dp"
-                        android:layout_weight="1"
-                        android:layout_margin="6dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="3dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/gradient_category_1"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:padding="16dp">
-
-                            <ImageView
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:src="@drawable/ic_smartphone"
-                                app:tint="@android:color/white" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="Teléfonos"
-                                android:textAlignment="center"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- Laptops -->
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardLaptops"
-                        android:layout_width="0dp"
-                        android:layout_height="160dp"
-                        android:layout_weight="1"
-                        android:layout_margin="6dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="3dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/gradient_category_2"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:padding="16dp">
-
-                            <ImageView
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:src="@drawable/ic_laptop"
-                                app:tint="@android:color/white" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="Laptops"
-                                android:textAlignment="center"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-                </LinearLayout>
-
-                <!-- Fila 2: Audio y Smartwatches -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <!-- Audio -->
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardAudio"
-                        android:layout_width="0dp"
-                        android:layout_height="160dp"
-                        android:layout_weight="1"
-                        android:layout_margin="6dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="3dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/gradient_category_3"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:padding="16dp">
-
-                            <ImageView
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:src="@drawable/ic_headset"
-                                app:tint="@android:color/white" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="Audio"
-                                android:textAlignment="center"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- Smartwatches -->
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardSmartwatches"
-                        android:layout_width="0dp"
-                        android:layout_height="160dp"
-                        android:layout_weight="1"
-                        android:layout_margin="6dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="3dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/gradient_category_4"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:padding="16dp">
-
-                            <ImageView
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:src="@drawable/ic_watch"
-                                app:tint="@android:color/white" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="Smartwatches"
-                                android:textAlignment="center"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-                </LinearLayout>
-            </LinearLayout>
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                tools:itemCount="14"
+                tools:listitem="@layout/item_category" />
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-    <!-- Bottom Navigation -->
+    <!-- BOTTOM NAVIGATION FIJO -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/llBottomNav"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        android:elevation="8dp"
+        android:elevation="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        app:itemIconSize="26dp"
         app:itemIconTint="@drawable/bottom_nav_color"
+        app:itemRippleColor="@color/purple_200"
         app:itemTextColor="@drawable/bottom_nav_color"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
