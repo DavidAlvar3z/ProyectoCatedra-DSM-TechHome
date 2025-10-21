@@ -6,7 +6,6 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
-import retrofit2.http.Query
 import retrofit2.http.Url
 import java.util.concurrent.TimeUnit
 
@@ -23,13 +22,7 @@ data class Product(
     val salePrice: Double = 0.0,
     val regularPrice: Double = 0.0,
     val image: String = "",
-    val url: String = "",
-    val categoryPath: List<CategoryPath>? = null
-)
-
-data class CategoryPath(
-    val id: String = "",
-    val name: String = ""
+    val url: String = ""
 )
 
 interface BestBuyApiService {
@@ -37,14 +30,6 @@ interface BestBuyApiService {
     @GET
     fun getProductsByCategory(
         @Url url: String
-    ): Call<BestBuyResponse>
-
-    @GET("products")
-    fun searchProducts(
-        @Query("apiKey") apiKey: String,
-        @Query("format") format: String = "json",
-        @Query("show") show: String = "sku,name,salePrice,regularPrice,image,url",
-        @Query("pageSize") pageSize: Int = 20
     ): Call<BestBuyResponse>
 
     companion object {
@@ -72,8 +57,9 @@ interface BestBuyApiService {
             return retrofit.create(BestBuyApiService::class.java)
         }
 
-        fun buildCategoryUrl(categoryId: String): String {
-            return "products(categoryPath.id=$categoryId)?format=json&show=sku,name,salePrice,regularPrice,image,url&pageSize=20&apiKey=$API_KEY"
+        // ✅ CON PAGINACIÓN
+        fun buildCategoryUrl(categoryId: String, page: Int = 1, pageSize: Int = 20): String {
+            return "products(categoryPath.id=$categoryId)?format=json&show=sku,name,salePrice,regularPrice,image,url&page=$page&pageSize=$pageSize&apiKey=$API_KEY"
         }
     }
 }
