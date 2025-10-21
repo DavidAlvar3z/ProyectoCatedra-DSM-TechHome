@@ -21,16 +21,37 @@ class ProductRepository {
         private const val TAG = "ProductRepository"
     }
 
-    // Sincronizar productos de Best Buy a Firestore
-    fun syncProductsFromBestBuy(
-        categoryId: String,
-        categoryName: String,
+    // ✅ MÉTODO PARA SEARCHACTIVITY
+    fun getAllProducts(
         onSuccess: (List<ProductLocal>) -> Unit,
         onError: (String) -> Unit
     ) {
-        Log.d(TAG, "Sincronizando productos de categoría: $categoryId")
+        productsCollection
+            .orderBy("name", Query.Direction.ASCENDING)
+            .get()
+            .addOnSuccessListener { documents ->
+                val products = documents.toObjects(ProductLocal::class.java)
+                Log.d(TAG, "Total de productos obtenidos: ${products.size}")
+                onSuccess(products)
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "Error al obtener todos los productos", e)
+                onError("Error: ${e.message}")
+            }
+    }
 
-        val url = BestBuyApiService.buildCategoryUrl(categoryId)
+    // Sincronizar productos con PAGINACIÓN
+    fun syncProductsFromBestBuy(
+        categoryId: String,
+        categoryName: String,
+        page: Int = 1,
+        pageSize: Int = 20,
+        onSuccess: (products: List<ProductLocal>, hasMore: Boolean) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        Log.d(TAG, "Sincronizando página $page de categoría: $categoryId")
+
+        val url = BestBuyApiService.buildCategoryUrl(categoryId, page, pageSize)
 
         apiService.getProductsByCategory(url)
             .enqueue(object : Callback<BestBuyResponse> {
@@ -39,11 +60,24 @@ class ProductRepository {
                     response: Response<BestBuyResponse>
                 ) {
                     if (response.isSuccessful) {
-                        val products = response.body()?.products ?: emptyList()
-                        Log.d(TAG, "Productos obtenidos de Best Buy: ${products.size}")
+                        val bestBuyResponse = response.body()
+                        val products = bestBuyResponse?.products ?: emptyList()
+                        val total = bestBuyResponse?.total ?: 0
+                        val to = bestBuyResponse?.to ?: 0
 
-                        // Convertir y guardar en Firestore
-                        saveProductsToFirestore(products, categoryId, categoryName, onSuccess, onError)
+                        Log.d(TAG, "Productos obtenidos: ${products.size}, Total: $total, Hasta: $to")
+
+                        val hasMore = to < total
+
+                        saveProductsToFirestore(
+                            products,
+                            categoryId,
+                            categoryName,
+                            onSuccess = { localProducts ->
+                                onSuccess(localProducts, hasMore)
+                            },
+                            onError = onError
+                        )
                     } else {
                         onError("Error al obtener productos: ${response.code()}")
                     }
@@ -63,6 +97,11 @@ class ProductRepository {
         onSuccess: (List<ProductLocal>) -> Unit,
         onError: (String) -> Unit
     ) {
+        if (bestBuyProducts.isEmpty()) {
+            onSuccess(emptyList())
+            return
+        }
+
         val batch = db.batch()
         val localProducts = mutableListOf<ProductLocal>()
 
@@ -126,6 +165,23 @@ class ProductRepository {
             }
     }
 
+    // Verificar si existen productos en una categoría
+    fun hasProductsInCategory(
+        categoryId: String,
+        onResult: (Boolean) -> Unit
+    ) {
+        productsCollection
+            .whereEqualTo("categoryId", categoryId)
+            .limit(1)
+            .get()
+            .addOnSuccessListener { documents ->
+                onResult(!documents.isEmpty)
+            }
+            .addOnFailureListener {
+                onResult(false)
+            }
+    }
+
     // Obtener un producto específico
     fun getProductBySku(
         sku: String,
@@ -141,31 +197,6 @@ class ProductRepository {
             }
             .addOnFailureListener { e ->
                 Log.e(TAG, "Error al obtener producto", e)
-                onError("Error: ${e.message}")
-            }
-    }
-
-    // Actualizar stock de un producto
-    fun updateStock(
-        sku: String,
-        newStock: Int,
-        onSuccess: () -> Unit,
-        onError: (String) -> Unit
-    ) {
-        productsCollection
-            .document(sku)
-            .update(
-                mapOf(
-                    "stock" to newStock,
-                    "isAvailable" to (newStock > 0)
-                )
-            )
-            .addOnSuccessListener {
-                Log.d(TAG, "Stock actualizado para SKU: $sku")
-                onSuccess()
-            }
-            .addOnFailureListener { e ->
-                Log.e(TAG, "Error al actualizar stock", e)
                 onError("Error: ${e.message}")
             }
     }
@@ -209,7 +240,8 @@ class ProductRepository {
     }
 
     private fun extractBrand(name: String): String {
-        val brands = listOf("Apple", "Samsung", "Sony", "LG", "HP", "Dell", "Lenovo", "Asus", "Bose", "JBL")
+        val brands = listOf("Apple", "Samsung", "Sony", "LG", "HP", "Dell", "Lenovo",
+            "Asus", "Bose", "JBL", "Canon", "Nikon", "Microsoft", "Google", "Xiaomi")
         return brands.firstOrNull { name.contains(it, ignoreCase = true) } ?: "Generic"
     }
 
