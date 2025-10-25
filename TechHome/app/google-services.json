@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "512592380297",
+    "project_id": "techhome-5d955",
+    "storage_bucket": "techhome-5d955.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512592380297:android:244ae0d2c5e4db0a50e158",
+        "android_client_info": {
+          "package_name": "com.techhome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512592380297-q3b7ifv8df97juausblrjm6d5kltvskr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techhome",
+            "certificate_hash": "18ffee5ec864dc4b8fa808fd14cb73638019fa58"
+          }
+        },
+        {
+          "client_id": "512592380297-ot170mlop919k4j9n0415qp69ejvqnr5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCw9soYyPiA_vKfm9s77ZA-wAEry9K3GfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "512592380297-ot170mlop919k4j9n0415qp69ejvqnr5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
