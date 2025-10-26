@@ -26,23 +26,23 @@ class CartRepository {
         onSuccess: () -> Unit,
         onError: (String) -> Unit
     ) {
-        val userCartRef = cartCollection.document(userId).collection("items").document(product.id)
+        val cartItemId = "${userId}_${product.sku}"
+        val userCartRef = cartCollection.document(userId).collection("items").document(product.sku)
 
         db.runTransaction { transaction ->
             val snapshot = transaction.get(userCartRef)
             val currentQuantity = snapshot.getLong("quantity")?.toInt() ?: 0
             val newQuantity = currentQuantity + quantity
 
-            val cartItem = mapOf(
-                "productId" to product.id,
-                "name" to product.name,
-                "image" to product.image,
-                "salePrice" to product.salePrice,
+            val cartItem = hashMapOf(
+                "cartItemId" to cartItemId,
+                "productSku" to product.sku,
+                "productName" to product.name,
+                "productImage" to product.image,
+                "price" to product.salePrice,
                 "regularPrice" to product.regularPrice,
                 "quantity" to newQuantity,
-                "categoryId" to product.categoryId,
-                "categoryName" to product.categoryName,
-                "timestamp" to System.currentTimeMillis()
+                "addedAt" to System.currentTimeMillis()
             )
 
             transaction.set(userCartRef, cartItem)
@@ -64,27 +64,27 @@ class CartRepository {
         onError: (String) -> Unit
     ) {
         cartCollection.document(userId).collection("items")
-            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .orderBy("addedAt", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
-                // Convertir cada documento en CartItem
                 val items = documents.mapNotNull { doc ->
                     try {
                         CartItem(
-                            productId = doc.getString("productId") ?: "",
-                            name = doc.getString("name") ?: "Producto",
-                            image = doc.getString("image") ?: "",
-                            salePrice = doc.getDouble("salePrice") ?: 0.0,
+                            cartItemId = doc.getString("cartItemId") ?: "",
+                            productSku = doc.getString("productSku") ?: "",
+                            productName = doc.getString("productName") ?: "Producto",
+                            productImage = doc.getString("productImage") ?: "",
+                            price = doc.getDouble("price") ?: 0.0,
                             regularPrice = doc.getDouble("regularPrice") ?: 0.0,
                             quantity = (doc.getLong("quantity") ?: 1).toInt(),
-                            categoryId = doc.getString("categoryId") ?: "",
-                            categoryName = doc.getString("categoryName") ?: ""
+                            addedAt = doc.getLong("addedAt") ?: System.currentTimeMillis()
                         )
                     } catch (e: Exception) {
                         Log.e(TAG, "Error al mapear CartItem", e)
                         null
                     }
                 }
+                Log.d(TAG, "Carrito cargado: ${items.size} items")
                 onSuccess(items)
             }
             .addOnFailureListener { e ->
@@ -98,12 +98,12 @@ class CartRepository {
      */
     fun updateQuantity(
         userId: String,
-        productId: String,
+        productSku: String,
         newQuantity: Int,
         onSuccess: () -> Unit,
         onError: (String) -> Unit
     ) {
-        val itemRef = cartCollection.document(userId).collection("items").document(productId)
+        val itemRef = cartCollection.document(userId).collection("items").document(productSku)
         val safeQuantity = max(newQuantity, 1)
 
         itemRef.update("quantity", safeQuantity)
@@ -112,6 +112,7 @@ class CartRepository {
                 onSuccess()
             }
             .addOnFailureListener { e ->
+                Log.e(TAG, "Error al actualizar cantidad", e)
                 onError(e.message ?: "Error al actualizar cantidad")
             }
     }
@@ -121,18 +122,19 @@ class CartRepository {
      */
     fun removeFromCart(
         userId: String,
-        productId: String,
+        productSku: String,
         onSuccess: () -> Unit,
         onError: (String) -> Unit
     ) {
-        val itemRef = cartCollection.document(userId).collection("items").document(productId)
+        val itemRef = cartCollection.document(userId).collection("items").document(productSku)
 
         itemRef.delete()
             .addOnSuccessListener {
-                Log.d(TAG, "Producto eliminado del carrito: $productId")
+                Log.d(TAG, "Producto eliminado del carrito: $productSku")
                 onSuccess()
             }
             .addOnFailureListener { e ->
+                Log.e(TAG, "Error al eliminar producto", e)
                 onError(e.message ?: "Error al eliminar producto")
             }
     }
@@ -156,10 +158,12 @@ class CartRepository {
                         onSuccess()
                     }
                     .addOnFailureListener { e ->
+                        Log.e(TAG, "Error al vaciar carrito", e)
                         onError(e.message ?: "Error al vaciar carrito")
                     }
             }
             .addOnFailureListener { e ->
+                Log.e(TAG, "Error al acceder al carrito", e)
                 onError(e.message ?: "Error al acceder al carrito")
             }
     }
@@ -168,6 +172,20 @@ class CartRepository {
      * 🔹 Calcular total del carrito
      */
     fun calculateCartTotal(items: List<CartItem>): Double {
-        return items.sumOf { it.salePrice * it.quantity }
+        return items.sumOf { it.price * it.quantity }
+    }
+
+    /**
+     * 🔹 Calcular subtotal (sin descuentos)
+     */
+    fun calculateSubtotal(items: List<CartItem>): Double {
+        return items.sumOf { it.regularPrice * it.quantity }
+    }
+
+    /**
+     * 🔹 Calcular ahorro total
+     */
+    fun calculateTotalSavings(items: List<CartItem>): Double {
+        return items.sumOf { (it.regularPrice - it.price) * it.quantity }
     }
 }

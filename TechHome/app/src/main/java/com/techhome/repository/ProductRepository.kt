@@ -71,7 +71,6 @@ class ProductRepository {
 
                         saveProductsToFirestore(
                             products,
-                            categoryId,
                             categoryName,
                             onSuccess = { localProducts ->
                                 onSuccess(localProducts, hasMore)
@@ -92,7 +91,6 @@ class ProductRepository {
 
     private fun saveProductsToFirestore(
         bestBuyProducts: List<com.techhome.network.Product>,
-        categoryId: String,
         categoryName: String,
         onSuccess: (List<ProductLocal>) -> Unit,
         onError: (String) -> Unit
@@ -109,24 +107,19 @@ class ProductRepository {
             val docRef = productsCollection.document(bbProduct.sku)
 
             val productLocal = ProductLocal(
-                id = bbProduct.sku,
                 sku = bbProduct.sku,
                 name = bbProduct.name,
                 description = generateDescription(bbProduct.name),
-                salePrice = bbProduct.salePrice,
-                regularPrice = bbProduct.regularPrice,
+                brand = extractBrand(bbProduct.name),
+                model = extractModel(bbProduct.name),
                 image = bbProduct.image,
                 url = bbProduct.url,
-                categoryId = categoryId,
-                categoryName = categoryName,
+                regularPrice = bbProduct.regularPrice,
+                salePrice = bbProduct.salePrice,
                 stock = Random.nextInt(5, 51),
-                lowStockThreshold = 5,
-                isAvailable = true,
-                lastSyncedFromBestBuy = System.currentTimeMillis(),
+                category = categoryName,
                 rating = Random.nextDouble(3.5, 5.0),
-                reviewCount = Random.nextInt(10, 501),
-                brand = extractBrand(bbProduct.name),
-                model = extractModel(bbProduct.name)
+                reviewCount = Random.nextInt(10, 501)
             )
 
             batch.set(docRef, productLocal)
@@ -146,12 +139,12 @@ class ProductRepository {
 
     // Obtener productos por categoría desde Firestore
     fun getProductsByCategory(
-        categoryId: String,
+        category: String,
         onSuccess: (List<ProductLocal>) -> Unit,
         onError: (String) -> Unit
     ) {
         productsCollection
-            .whereEqualTo("categoryId", categoryId)
+            .whereEqualTo("category", category)
             .orderBy("name", Query.Direction.ASCENDING)
             .get()
             .addOnSuccessListener { documents ->
@@ -167,11 +160,11 @@ class ProductRepository {
 
     // Verificar si existen productos en una categoría
     fun hasProductsInCategory(
-        categoryId: String,
+        category: String,
         onResult: (Boolean) -> Unit
     ) {
         productsCollection
-            .whereEqualTo("categoryId", categoryId)
+            .whereEqualTo("category", category)
             .limit(1)
             .get()
             .addOnSuccessListener { documents ->
@@ -220,7 +213,6 @@ class ProductRepository {
 
             val newStock = currentStock - quantity
             transaction.update(docRef, "stock", newStock)
-            transaction.update(docRef, "isAvailable", newStock > 0)
 
             newStock
         }
