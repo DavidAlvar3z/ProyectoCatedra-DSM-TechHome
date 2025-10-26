@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cvProduct"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,112 +9,145 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardBackgroundColor="#FFFFFF"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="4dp">
+    app:cardBackgroundColor="@color/surface"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="14dp">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/ivProductImage"
+        <FrameLayout
+            android:id="@+id/flImageContainer"
             android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:contentDescription="Imagen del producto"
-            android:scaleType="centerInside"
+            android:layout_height="160dp"
+            android:background="@color/surface_variant"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipDiscount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="-20%"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:chipBackgroundColor="#FF3B30"
-            app:chipCornerRadius="8dp"
-            app:chipMinHeight="26dp"
-            app:layout_constraintEnd_toEndOf="@id/ivProductImage"
-            app:layout_constraintTop_toTopOf="@id/ivProductImage" />
+            <ImageView
+                android:id="@+id/ivProductImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="Imagen del producto"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                tools:src="@drawable/ic_placeholder" />
 
-        <TextView
-            android:id="@+id/tvProductName"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:layout_margin="10dp"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                android:visibility="gone"
+                app:chipBackgroundColor="@color/error"
+                app:chipCornerRadius="12dp"
+                app:chipMinHeight="24dp"
+                tools:text="-20%"
+                tools:visibility="visible" />
+        </FrameLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif"
-            android:lineSpacingExtra="2dp"
-            android:maxLines="2"
-            android:text="Nombre del producto"
-            android:textColor="#2C2C2C"
-            android:textSize="14sp"
-            android:textStyle="normal"
+            android:orientation="vertical"
+            android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivProductImage" />
+            app:layout_constraintTop_toBottomOf="@id/flImageContainer">
 
-        <TextView
-            android:id="@+id/tvRating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="4.5 ⭐"
-            android:textColor="#FFAB00"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvProductName" />
+            <TextView
+                android:id="@+id/tvProductName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:lineSpacingExtra="2dp"
+                android:maxLines="2"
+                android:minHeight="44dp"
+                android:textColor="@color/text_primary"
+                android:textSize="15sp"
+                tools:text="Apple iPhone 15 Pro Max 256GB" />
 
-        <TextView
-            android:id="@+id/tvProductPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="$0.00"
-            android:textColor="#0051D5"
-            android:textSize="19sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvRating" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvRegularPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:alpha="0.6"
-            android:fontFamily="sans-serif"
-            android:text="$0.00"
-            android:textColor="#999999"
-            android:textSize="14sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/tvProductPrice"
-            app:layout_constraintStart_toEndOf="@id/tvProductPrice"
-            app:layout_constraintTop_toTopOf="@id/tvProductPrice" />
+                <TextView
+                    android:id="@+id/tvRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/tertiary"
+                    android:textSize="13sp"
+                    tools:text="4.5 ⭐" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipStock"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="En Stock"
-            android:textSize="11sp"
-            app:chipCornerRadius="10dp"
-            app:chipMinHeight="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvProductPrice" />
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="4dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_dot" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="12sp"
+                    tools:text="(125)" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvProductPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:textColor="@color/primary"
+                    android:textSize="20sp"
+                    tools:text="$999.99" />
+
+                <TextView
+                    android:id="@+id/tvRegularPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:alpha="0.5"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    tools:text="$1,299.99"
+                    tools:visibility="visible" />
+            </LinearLayout>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipStock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:textAlignment="center"
+                android:textSize="12sp"
+                app:chipCornerRadius="12dp"
+                app:chipMinHeight="32dp"
+                tools:text="En Stock" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
