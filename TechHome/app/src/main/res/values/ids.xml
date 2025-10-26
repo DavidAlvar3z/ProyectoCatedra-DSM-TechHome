@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Sort Chips -->
+    <item name="chipSortNameAsc" type="id" />
+    <item name="chipSortNameDesc" type="id" />
+    <item name="chipSortPriceAsc" type="id" />
+    <item name="chipSortPriceDesc" type="id" />
+    <item name="chipSortRating" type="id" />
+    <item name="chipSortNewest" type="id" />
+</resources>

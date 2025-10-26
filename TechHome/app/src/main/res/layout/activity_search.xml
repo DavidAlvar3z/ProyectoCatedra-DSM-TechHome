@@ -3,40 +3,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="#FAFAFA">
 
-    <!-- Barra superior -->
+    <!-- Barra superior moderna -->
     <LinearLayout
         android:id="@+id/llTopBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        android:elevation="4dp"
+        android:elevation="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="12dp"
+        android:paddingStart="12dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/btnBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Volver"
             android:src="@drawable/ic_arrow_back" />
 
-        <!-- Barra de búsqueda -->
+        <!-- Barra de búsqueda moderna -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            app:boxBackgroundMode="outline"
+            app:boxBackgroundColor="#F5F5F5"
+            app:boxBackgroundMode="filled"
+            app:boxCornerRadiusBottomEnd="14dp"
+            app:boxCornerRadiusBottomStart="14dp"
+            app:boxCornerRadiusTopEnd="14dp"
+            app:boxCornerRadiusTopStart="14dp"
             app:boxStrokeWidth="0dp"
             app:hintEnabled="false"
-            app:startIconDrawable="@drawable/ic_search">
+            app:startIconDrawable="@drawable/ic_search"
+            app:startIconTint="@color/purple_600">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etSearch"
@@ -45,9 +54,36 @@
                 android:hint="Buscar productos..."
                 android:imeOptions="actionSearch"
                 android:inputType="text"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Botón de filtros -->
+        <ImageButton
+            android:id="@+id/btnFilter"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Filtros"
+            android:src="@drawable/ic_filter"
+            app:tint="@color/purple_600" />
     </LinearLayout>
+
+    <!-- Contador de resultados -->
+    <TextView
+        android:id="@+id/tvResultsCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="0 resultados"
+        android:textColor="#666666"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llTopBar" />
 
     <!-- RecyclerView de resultados -->
     <androidx.recyclerview.widget.RecyclerView
@@ -56,13 +92,13 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:clipToPadding="false"
-        android:padding="8dp"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llTopBar" />
+        app:layout_constraintTop_toBottomOf="@id/tvResultsCount" />
 
-    <!-- Mensaje sin resultados -->
+    <!-- Mensaje sin resultados moderno -->
     <LinearLayout
         android:id="@+id/tvNoResults"
         android:layout_width="wrap_content"
@@ -76,20 +112,30 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:alpha="0.3"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:alpha="0.25"
             android:src="@drawable/ic_search"
-            app:tint="@android:color/darker_gray" />
+            app:tint="#CCCCCC" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif-medium"
             android:text="No se encontraron productos"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="16sp"
+            android:textColor="#666666"
+            android:textSize="17sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:alpha="0.7"
+            android:text="Intenta ajustar los filtros"
+            android:textColor="#999999"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <!-- ProgressBar -->

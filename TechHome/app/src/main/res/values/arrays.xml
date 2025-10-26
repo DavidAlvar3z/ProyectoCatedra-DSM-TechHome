@@ -2,6 +2,6 @@
 <resources>
     <array name="initial_price_range">
         <item>0</item>
-        <item>10000</item>
+        <item>3500</item>
     </array>
 </resources>

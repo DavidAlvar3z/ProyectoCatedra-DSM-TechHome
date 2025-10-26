@@ -7,17 +7,19 @@ import kotlinx.parcelize.Parcelize
 data class SearchFilter(
     var query: String = "",
     var minPrice: Double = 0.0,
-    var maxPrice: Double = 10000.0,
-    var category: String = "",
-    var sortBy: SortOption = SortOption.RELEVANCE,
+    var maxPrice: Double = 3500.0,
+    var selectedCategory: String = "",
+    var selectedBrand: String = "",
+    var minRating: Double = 0.0,
     var inStockOnly: Boolean = false,
-    var minRating: Float = 0f
+    var sortBy: SortOption = SortOption.NAME_ASC
 ) : Parcelable
 
 enum class SortOption {
-    RELEVANCE,
-    PRICE_LOW_TO_HIGH,
-    PRICE_HIGH_TO_LOW,
-    RATING,
+    NAME_ASC,
+    NAME_DESC,
+    PRICE_ASC,
+    PRICE_DESC,
+    RATING_DESC,
     NEWEST
 }
