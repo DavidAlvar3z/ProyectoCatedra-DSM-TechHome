@@ -1,9 +1,13 @@
 package com.techhome.models
 
 data class User(
-    val uid: String = "",
+    val email: String = "",
     val nombre: String = "",
     val apellido: String = "",
-    val email: String = "",
-    val fechaRegistro: Long = 0
+    val edad: Int? = null,
+    val sexo: String = "",
+    val telefono: String = "",
+    val biografia: String = "",
+    val photoUrl: String? = null,
+    val createdAt: Long = System.currentTimeMillis()
 )

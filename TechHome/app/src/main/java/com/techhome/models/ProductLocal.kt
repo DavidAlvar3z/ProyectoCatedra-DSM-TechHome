@@ -1,57 +1,48 @@
 package com.techhome.models
 
-import com.google.firebase.firestore.DocumentId
-import com.google.firebase.firestore.ServerTimestamp
-import java.util.Date
+import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.IgnoreExtraProperties
 
+@IgnoreExtraProperties
 data class ProductLocal(
-    @DocumentId
-    val id: String = "",
     val sku: String = "",
     val name: String = "",
     val description: String = "",
-    val salePrice: Double = 0.0,
-    val regularPrice: Double = 0.0,
+    val brand: String = "",
+    val model: String = "",
     val image: String = "",
     val url: String = "",
-    val categoryId: String = "",
-    val categoryName: String = "",
-
-    // Campos de inventario
+    val regularPrice: Double = 0.0,
+    val salePrice: Double = 0.0,
     val stock: Int = 0,
-    val lowStockThreshold: Int = 5,
-    val isAvailable: Boolean = true,
-
-    // Metadata
-    @ServerTimestamp
-    val createdAt: Date? = null,
-    @ServerTimestamp
-    val updatedAt: Date? = null,
-    val lastSyncedFromBestBuy: Long = 0,
-
-    // Características adicionales
+    val category: String = "",
     val rating: Double = 0.0,
-    val reviewCount: Int = 0,
-    val brand: String = "",
-    val model: String = ""
+    val reviewCount: Int = 0
 ) {
-    // Helper para verificar si está en stock bajo
-    fun isLowStock(): Boolean = stock in 1..lowStockThreshold
-
-    // Helper para calcular descuento
+    // Métodos calculados - NO se guardan en Firestore
+    @Exclude
     fun getDiscountPercentage(): Int {
-        if (regularPrice <= salePrice) return 0
-        return ((1 - (salePrice / regularPrice)) * 100).toInt()
+        return if (regularPrice > salePrice && regularPrice > 0) {
+            (((regularPrice - salePrice) / regularPrice) * 100).toInt()
+        } else {
+            0
+        }
     }
 
-    // Helper para el estado del stock
+    @Exclude
     fun getStockStatus(): StockStatus {
         return when {
             stock == 0 -> StockStatus.OUT_OF_STOCK
-            stock <= lowStockThreshold -> StockStatus.LOW_STOCK
+            stock <= 5 -> StockStatus.LOW_STOCK
             else -> StockStatus.IN_STOCK
         }
     }
+
+    @Exclude
+    fun isLowStock(): Boolean = stock in 1..5
+
+    @Exclude
+    fun isAvailable(): Boolean = stock > 0
 }
 
 enum class StockStatus {
