@@ -10,12 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.techhome.R
 import com.techhome.models.CartItem
+import java.text.NumberFormat
+import java.util.*
 
 class CartAdapter(
     private var cartItems: MutableList<CartItem>,
     private val onQuantityChange: (CartItem, Int) -> Unit,
     private val onRemove: (CartItem) -> Unit
 ) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
+
+    private val formatter = NumberFormat.getCurrencyInstance(Locale.US)
 
     inner class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val ivProductImage: ImageView = itemView.findViewById(R.id.ivProductImage)
@@ -37,21 +41,26 @@ class CartAdapter(
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val item = cartItems[position]
 
-        holder.tvProductName.text = item.name
-        holder.tvPrice.text = "$${"%.2f".format(item.salePrice)}"
+        // Mostrar información del producto
+        holder.tvProductName.text = item.productName
+        holder.tvPrice.text = formatter.format(item.price)
         holder.tvQuantity.text = item.quantity.toString()
-        holder.tvSubtotal.text = "$${"%.2f".format(item.getSubtotal())}"
+        holder.tvSubtotal.text = formatter.format(item.getSubtotal())
 
+        // Cargar imagen
         Glide.with(holder.itemView.context)
-            .load(item.image)
+            .load(item.productImage)
             .placeholder(R.drawable.ic_placeholder)
+            .error(R.drawable.ic_placeholder)
             .into(holder.ivProductImage)
 
+        // Botón aumentar cantidad
         holder.btnAdd.setOnClickListener {
             val newQuantity = item.quantity + 1
             onQuantityChange(item, newQuantity)
         }
 
+        // Botón disminuir cantidad
         holder.btnSubtract.setOnClickListener {
             if (item.quantity > 1) {
                 val newQuantity = item.quantity - 1
@@ -59,6 +68,7 @@ class CartAdapter(
             }
         }
 
+        // Botón eliminar
         holder.btnRemove.setOnClickListener {
             onRemove(item)
         }
@@ -66,9 +76,34 @@ class CartAdapter(
 
     override fun getItemCount(): Int = cartItems.size
 
+    /**
+     * Actualizar la lista de items del carrito
+     */
     fun updateItems(newItems: List<CartItem>) {
         cartItems.clear()
         cartItems.addAll(newItems)
         notifyDataSetChanged()
+    }
+
+    /**
+     * Eliminar un item específico
+     */
+    fun removeItem(item: CartItem) {
+        val position = cartItems.indexOf(item)
+        if (position != -1) {
+            cartItems.removeAt(position)
+            notifyItemRemoved(position)
+        }
+    }
+
+    /**
+     * Actualizar cantidad de un item específico
+     */
+    fun updateItemQuantity(item: CartItem, newQuantity: Int) {
+        val position = cartItems.indexOfFirst { it.cartItemId == item.cartItemId }
+        if (position != -1) {
+            cartItems[position] = item.copy(quantity = newQuantity)
+            notifyItemChanged(position)
+        }
     }
 }
