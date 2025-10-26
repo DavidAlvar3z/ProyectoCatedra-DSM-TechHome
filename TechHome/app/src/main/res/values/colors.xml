@@ -1,32 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Colores primarios -->
+    <!-- Primary Colors -->
+    <color name="primary">#6366F1</color>
+    <color name="primary_dark">#4F46E5</color>
+    <color name="primary_light">#818CF8</color>
+    <color name="primary_variant">#A5B4FC</color>
+
+    <!-- Secondary Colors -->
+    <color name="secondary">#14B8A6</color>
+    <color name="secondary_dark">#0D9488</color>
+    <color name="secondary_light">#2DD4BF</color>
+
+    <!-- Tertiary Colors -->
+    <color name="tertiary">#F59E0B</color>
+    <color name="tertiary_dark">#D97706</color>
+    <color name="tertiary_light">#FBBF24</color>
+
+    <!-- Background Colors -->
+    <color name="background">#F8FAFC</color>
+    <color name="background_dark">#0F172A</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#F1F5F9</color>
+    <color name="surface_container">#E2E8F0</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#1E293B</color>
+    <color name="text_secondary">#64748B</color>
+    <color name="text_tertiary">#94A3B8</color>
+    <color name="text_on_primary">#FFFFFF</color>
+
+    <!-- Status Colors -->
+    <color name="success">#10B981</color>
+    <color name="success_light">#D1FAE5</color>
+    <color name="success_dark">#065F46</color>
+
+    <color name="warning">#F59E0B</color>
+    <color name="warning_light">#FEF3C7</color>
+    <color name="warning_dark">#92400E</color>
+
+    <color name="error">#EF4444</color>
+    <color name="error_light">#FEE2E2</color>
+    <color name="error_dark">#991B1B</color>
+
+    <color name="info">#3B82F6</color>
+    <color name="info_light">#DBEAFE</color>
+    <color name="info_dark">#1E40AF</color>
+
+    <!-- Stock Status Colors -->
+    <color name="green_50">#F0FDF4</color>
+    <color name="green_100">#DCFCE7</color>
+    <color name="green_600">#16A34A</color>
+    <color name="green_700">#15803D</color>
+
+    <color name="orange_50">#FFF7ED</color>
+    <color name="orange_100">#FFEDD5</color>
+    <color name="orange_600">#EA580C</color>
+    <color name="orange_700">#C2410C</color>
+
+    <color name="red_50">#FEF2F2</color>
+    <color name="red_100">#FEE2E2</color>
+    <color name="red_600">#DC2626</color>
+    <color name="red_700">#B91C1C</color>
+
+    <!-- Utility Colors -->
+    <color name="divider">#E2E8F0</color>
+    <color name="overlay">#80000000</color>
+    <color name="overlay_light">#40000000</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- Gradient Colors -->
+    <color name="gradient_start">#6366F1</color>
+    <color name="gradient_middle">#8B5CF6</color>
+    <color name="gradient_end">#EC4899</color>
+
+    <!-- Category Gradient Colors -->
+    <color name="category_1_start">#6366F1</color>
+    <color name="category_1_end">#8B5CF6</color>
+
+    <color name="category_2_start">#14B8A6</color>
+    <color name="category_2_end">#06B6D4</color>
+
+    <color name="category_3_start">#F59E0B</color>
+    <color name="category_3_end">#EF4444</color>
+
+    <color name="category_4_start">#8B5CF6</color>
+    <color name="category_4_end">#EC4899</color>
+
+    <!-- Bottom Navigation -->
+    <color name="bottom_nav_selected">#6366F1</color>
+    <color name="bottom_nav_unselected">#94A3B8</color>
+
+    <!-- Legacy colors for compatibility (Material Design defaults) -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
-    <color name="purple_600">#FF5E35B1</color>
+    <color name="purple_600">#6366F1</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-
-    <!-- Colores de estado de stock -->
-    <color name="green_50">#E8F5E9</color>
-    <color name="green_100">#C8E6C9</color>
-    <color name="green_600">#43A047</color>
-    <color name="green_700">#388E3C</color>
-
-    <color name="orange_50">#FFF3E0</color>
-    <color name="orange_100">#FFE0B2</color>
-    <color name="orange_600">#FB8C00</color>
-    <color name="orange_700">#F57C00</color>
-
-    <color name="red_50">#FFEBEE</color>
-    <color name="red_100">#FFCDD2</color>
-    <color name="red_600">#E53935</color>
-    <color name="red_700">#D32F2F</color>
-
-    <!-- Colores adicionales -->
-    <color name="blue_600">#1E88E5</color>
-    <color name="yellow_600">#FDD835</color>
 </resources>
