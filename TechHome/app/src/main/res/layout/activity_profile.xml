@@ -4,16 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:fillViewport="true"
-    android:background="#F5F5F5"
     tools:context=".activities.ProfileActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="24dp">
+        android:layout_height="wrap_content">
 
-        <!-- Header con gradiente -->
         <View
             android:id="@+id/vHeaderBackground"
             android:layout_width="0dp"
@@ -23,298 +21,300 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Barra superior -->
-        <LinearLayout
-            android:id="@+id/llTopBar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:gravity="center_vertical"
-            app:layout_constraintEnd_toEndOf="parent"
+        <androidx.cardview.widget.CardView
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_margin="20dp"
+            app:cardBackgroundColor="#40FFFFFF"
+            app:cardCornerRadius="22dp"
+            app:cardElevation="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
                 android:id="@+id/btnBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Volver"
+                android:padding="10dp"
                 android:src="@drawable/ic_arrow_back"
-                app:tint="@android:color/white" />
+                app:tint="@color/text_on_primary" />
+        </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Mi Perfil"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <ImageButton
-                android:id="@+id/btnEdit"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Editar"
-                android:src="@drawable/ic_edit"
-                app:tint="@android:color/white" />
-        </LinearLayout>
-
-        <!-- Foto de perfil -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvProfilePhoto"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="100dp"
-            app:cardCornerRadius="60dp"
-            app:cardElevation="8dp"
+        <FrameLayout
+            android:id="@+id/flProfilePhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/ivProfilePhoto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="Foto de perfil"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_person" />
-        </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                app:cardBackgroundColor="@color/surface"
+                app:cardCornerRadius="60dp"
+                app:cardElevation="12dp">
 
-        <!-- Botón cambiar foto -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabChangePhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="-8dp"
-            android:layout_marginBottom="-8dp"
-            android:backgroundTint="@color/purple_600"
-            android:contentDescription="Cambiar foto"
-            android:src="@drawable/ic_camera"
-            app:fabSize="mini"
-            app:layout_constraintBottom_toBottomOf="@id/cvProfilePhoto"
-            app:layout_constraintEnd_toEndOf="@id/cvProfilePhoto"
-            app:tint="@android:color/white" />
+                <ImageView
+                    android:id="@+id/ivProfilePhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="Foto de perfil"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_person"
+                    app:tint="@color/text_tertiary" />
+            </androidx.cardview.widget.CardView>
 
-        <!-- Card de información -->
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabChangePhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:contentDescription="Cambiar foto"
+                android:src="@drawable/ic_camera"
+                app:backgroundTint="@color/primary"
+                app:fabSize="mini"
+                app:tint="@color/text_on_primary" />
+        </FrameLayout>
+
         <androidx.cardview.widget.CardView
-            android:id="@+id/cvInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="-40dp"
+            android:layout_marginEnd="24dp"
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cvProfilePhoto">
+            app:layout_constraintTop_toBottomOf="@id/flProfilePhoto">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:paddingTop="60dp"
+                android:paddingBottom="28dp"
+                android:paddingStart="28dp"
+                android:paddingEnd="28dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
                     android:text="Información Personal"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="16dp" />
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp" />
 
-                <!-- Nombre -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/divider" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilNombre"
+                    style="@style/Widget.TechHome.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nombre"
-                    app:boxStrokeColor="@color/purple_500"
                     app:startIconDrawable="@drawable/ic_person"
-                    app:startIconTint="@color/purple_600">
+                    app:startIconTint="@color/primary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etNombre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
                         android:inputType="textPersonName"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Apellido -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilApellido"
+                    style="@style/Widget.TechHome.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:hint="Apellido"
-                    app:boxStrokeColor="@color/purple_500"
                     app:startIconDrawable="@drawable/ic_person"
-                    app:startIconTint="@color/purple_600">
+                    app:startIconTint="@color/primary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etApellido"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
                         android:inputType="textPersonName"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Email (no editable) -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilEmail"
+                    style="@style/Widget.TechHome.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:hint="Email"
-                    app:boxStrokeColor="@color/purple_500"
+                    android:layout_marginTop="16dp"
+                    android:hint="Correo electrónico"
                     app:startIconDrawable="@drawable/ic_email"
-                    app:startIconTint="@color/purple_600">
+                    app:startIconTint="@color/primary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
+                        android:fontFamily="sans-serif-medium"
                         android:inputType="textEmailAddress"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Edad -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilEdad"
+                    style="@style/Widget.TechHome.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:hint="Edad"
-                    app:boxStrokeColor="@color/purple_500"
                     app:startIconDrawable="@drawable/ic_calendar"
-                    app:startIconTint="@color/purple_600">
+                    app:startIconTint="@color/primary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etEdad"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
                         android:inputType="number"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Sexo -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilSexo"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:hint="Sexo"
-                    app:boxStrokeColor="@color/purple_500"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxStrokeColor="@color/primary"
+                    app:boxStrokeWidth="2dp"
                     app:startIconDrawable="@drawable/ic_person"
-                    app:startIconTint="@color/purple_600">
+                    app:startIconTint="@color/primary">
 
                     <AutoCompleteTextView
                         android:id="@+id/actvSexo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Teléfono -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilTelefono"
+                    style="@style/Widget.TechHome.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:hint="Teléfono"
-                    app:boxStrokeColor="@color/purple_500"
                     app:startIconDrawable="@drawable/ic_phone"
-                    app:startIconTint="@color/purple_600">
+                    app:startIconTint="@color/primary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etTelefono"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
                         android:inputType="phone"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Biografía -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilBiografia"
+                    style="@style/Widget.TechHome.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:hint="Biografía"
-                    app:boxStrokeColor="@color/purple_500"
                     app:startIconDrawable="@drawable/ic_edit"
-                    app:startIconTint="@color/purple_600">
+                    app:startIconTint="@color/primary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etBiografia"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
                         android:gravity="top"
                         android:inputType="textMultiLine"
-                        android:lines="4"
-                        android:maxLines="4" />
+                        android:maxLines="4"
+                        android:minLines="3" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSave"
+                    style="@style/Widget.TechHome.Button.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:layout_marginTop="28dp"
+                    android:text="Guardar Cambios"
+                    android:textAllCaps="false"
+                    app:cornerRadius="14dp"
+                    app:icon="@drawable/ic_save"
+                    app:iconGravity="textStart" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnLogout"
+                    style="@style/Widget.TechHome.Button.Outlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Cerrar Sesión"
+                    android:textAllCaps="false"
+                    android:textColor="@color/error"
+                    app:icon="@drawable/ic_logout"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/error"
+                    app:strokeColor="@color/error"
+                    app:strokeWidth="2dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Botón Guardar -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSave"
+        <FrameLayout
             android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="@color/purple_600"
-            android:text="Guardar Cambios"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            app:cornerRadius="12dp"
-            app:icon="@drawable/ic_save"
-            app:iconGravity="textStart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cvInfo" />
-
-        <!-- Botón Cerrar Sesión -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLogout"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="#F44336"
-            android:text="Cerrar Sesión"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            app:cornerRadius="12dp"
-            app:icon="@drawable/ic_logout"
-            app:iconGravity="textStart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnSave" />
-
-        <!-- ProgressBar -->
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:background="@color/overlay_light"
+            android:clickable="true"
+            android:elevation="16dp"
+            android:focusable="true"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                app:cardBackgroundColor="@color/surface"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="16dp">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/primary" />
+            </androidx.cardview.widget.CardView>
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
