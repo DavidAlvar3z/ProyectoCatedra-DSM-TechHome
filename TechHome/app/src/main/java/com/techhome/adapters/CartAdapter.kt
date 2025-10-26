@@ -29,7 +29,9 @@ class CartAdapter(
         val tvSubtotal: TextView = itemView.findViewById(R.id.tvSubtotal)
         val btnAdd: ImageButton = itemView.findViewById(R.id.btnAdd)
         val btnSubtract: ImageButton = itemView.findViewById(R.id.btnSubtract)
-        val btnRemove: ImageButton = itemView.findViewById(R.id.btnRemove)
+        val btnRemove: View = itemView.findViewById(R.id.btnRemove)
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
