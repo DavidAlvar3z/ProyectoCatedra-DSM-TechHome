@@ -1,124 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/background"
     tools:context=".activities.CartActivity">
 
-    <!-- HEADER GRADIENTE -->
-    <View
-        android:id="@+id/vHeaderCart"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:layout_height="160dp"
-        android:background="@drawable/gradient_header"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- BARRA SUPERIOR -->
-    <LinearLayout
-        android:id="@+id/llTopBarCart"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary"
+        android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/vHeaderCart">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Mi Carrito"
+        app:titleCentered="true"
+        app:titleTextColor="@color/text_on_primary">
 
-        <ImageButton
-            android:id="@+id/btnBackCart"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Volver"
-            app:tint="@android:color/white" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            app:cardBackgroundColor="#40FFFFFF"
+            app:cardCornerRadius="22dp"
+            app:cardElevation="0dp">
 
-        <TextView
-            android:id="@+id/tvTitleCart"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Tu Carrito"
-            android:textColor="@android:color/white"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-medium" />
+            <ImageButton
+                android:id="@+id/btnBackCart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Volver"
+                android:padding="10dp"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/text_on_primary" />
+        </androidx.cardview.widget.CardView>
+    </com.google.android.material.appbar.MaterialToolbar>
 
-        <View
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
-    </LinearLayout>
-
-    <!-- LISTA DE PRODUCTOS -->
-
-    <!-- MENSAJE CUANDO EL CARRITO ESTÁ VACÍO -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCartItems"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="12dp"
         android:clipToPadding="false"
-        android:overScrollMode="never"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+        android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@id/cvSummary"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vHeaderCart" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:listitem="@layout/item_cart_product" />
 
     <LinearLayout
         android:id="@+id/layoutEmptyCart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:gravity="center"
-        android:layout_marginTop="60dp"
+        android:orientation="vertical"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/llTopBarCart"
-        app:layout_constraintBottom_toTopOf="@id/cvSummary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
 
-        <ImageView
+        <androidx.cardview.widget.CardView
             android:layout_width="140dp"
             android:layout_height="140dp"
-            android:src="@drawable/ic_remove"
-            android:contentDescription="Carrito vacío"
-            android:layout_marginBottom="12dp"
-            app:tint="#B0B0B0" />
+            app:cardBackgroundColor="@color/surface_variant"
+            app:cardCornerRadius="70dp"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:alpha="0.4"
+                android:src="@drawable/ic_shopping_bag"
+                app:tint="@color/text_tertiary" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="sans-serif-medium"
             android:text="Tu carrito está vacío"
-            android:textColor="#808080"
-            android:textSize="16sp"
-            android:fontFamily="sans-serif-medium" />
+            android:textColor="@color/text_primary"
+            android:textSize="20sp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Agrega productos para comenzar"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.TechHome.Button.Primary"
+            android:layout_width="wrap_content"
+            android:layout_height="58dp"
+            android:layout_marginTop="24dp"
+            android:paddingHorizontal="32dp"
+            android:text="Explorar Productos"
+            android:textAllCaps="false"
+            app:cornerRadius="14dp"
+            app:icon="@drawable/ic_search"
+            app:iconGravity="textStart" />
     </LinearLayout>
 
-    <!-- TARJETA DE RESUMEN -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cvSummary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="10dp"
+        app:cardBackgroundColor="@color/surface"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="12dp"
         app:layout_constraintBottom_toTopOf="@id/btnCheckout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -129,109 +131,114 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Resumen de compra"
-                android:textColor="#1A1A1A"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:fontFamily="sans-serif-medium"
+                android:text="Resumen del Pedido"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/divider" />
 
-            <!-- Subtotal -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingVertical="8dp">
 
                 <TextView
-                    android:text="Subtotal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="14sp"
-                    android:textColor="#666" />
+                    android:text="Subtotal"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tvSubtotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$0.00"
-                    android:textSize="14sp"
-                    android:textColor="#1A1A1A" />
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp"
+                    tools:text="$1,299.00" />
             </LinearLayout>
 
-            <!-- Envío -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingVertical="8dp">
 
                 <TextView
-                    android:text="Envío"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="14sp"
-                    android:textColor="#666" />
+                    android:text="Envío"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tvShipping"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$5.00"
-                    android:textSize="14sp"
-                    android:textColor="#1A1A1A" />
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp"
+                    tools:text="$5.00" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginVertical="8dp"
-                android:background="#E0E0E0" />
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="@color/divider" />
 
-            <!-- Total -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:text="Total"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/purple_700" />
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Total"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tvTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$0.00"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/purple_700" />
+                    android:fontFamily="sans-serif-black"
+                    android:textColor="@color/primary"
+                    android:textSize="24sp"
+                    tools:text="$1,304.00" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- BOTÓN FINALIZAR COMPRA -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCheckout"
+        style="@style/Widget.TechHome.Button.Primary"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/purple_600"
-        android:text="Finalizar compra"
-        android:textColor="@android:color/white"
+        android:text="Proceder al Pago"
         android:textAllCaps="false"
-        android:textSize="17sp"
-        android:fontFamily="sans-serif-medium"
-        app:cornerRadius="20dp"
+        app:cornerRadius="14dp"
+        app:icon="@drawable/ic_arrow_forward"
+        app:iconGravity="textEnd"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

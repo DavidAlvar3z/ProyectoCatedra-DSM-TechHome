@@ -113,7 +113,7 @@ class SearchActivity : AppCompatActivity() {
             } else {
                 product.name.contains(currentFilter.query, ignoreCase = true) ||
                         product.brand.contains(currentFilter.query, ignoreCase = true) ||
-                        product.categoryName.contains(currentFilter.query, ignoreCase = true)
+                        product.category.contains(currentFilter.query, ignoreCase = true)
             }
 
             // Filtro de precio
@@ -124,7 +124,7 @@ class SearchActivity : AppCompatActivity() {
             val matchesCategory = if (currentFilter.selectedCategory.isEmpty()) {
                 true
             } else {
-                product.categoryId == currentFilter.selectedCategory
+                product.category.equals(currentFilter.selectedCategory, ignoreCase = true)
             }
 
             // Filtro de marca
@@ -154,7 +154,7 @@ class SearchActivity : AppCompatActivity() {
             SortOption.PRICE_ASC -> filteredProducts.sortedBy { it.salePrice }
             SortOption.PRICE_DESC -> filteredProducts.sortedByDescending { it.salePrice }
             SortOption.RATING_DESC -> filteredProducts.sortedByDescending { it.rating }
-            SortOption.NEWEST -> filteredProducts.sortedByDescending { it.lastSyncedFromBestBuy }
+            SortOption.NEWEST -> filteredProducts.sortedByDescending { it.sku }
         }
 
         updateUI()
@@ -190,15 +190,13 @@ class SearchActivity : AppCompatActivity() {
         }
 
         // Obtener categorías únicas
-        val categories = allProducts.map { it.categoryName }.distinct().sorted()
+        val categories = allProducts.map { it.category }.distinct().sorted()
         chipGroupCategories.removeAllViews()
         categories.forEach { category ->
             val chip = Chip(this).apply {
                 text = category
                 isCheckable = true
-                isChecked = currentFilter.selectedCategory == allProducts.find {
-                    it.categoryName == category
-                }?.categoryId
+                isChecked = currentFilter.selectedCategory == category
             }
             chipGroupCategories.addView(chip)
         }
@@ -261,13 +259,7 @@ class SearchActivity : AppCompatActivity() {
             val selectedCategoryChip = chipGroupCategories.findViewById<Chip>(
                 chipGroupCategories.checkedChipId
             )
-            currentFilter.selectedCategory = if (selectedCategoryChip != null) {
-                allProducts.find {
-                    it.categoryName == selectedCategoryChip.text.toString()
-                }?.categoryId ?: ""
-            } else {
-                ""
-            }
+            currentFilter.selectedCategory = selectedCategoryChip?.text?.toString() ?: ""
 
             // Aplicar marca
             val selectedBrandChip = chipGroupBrands.findViewById<Chip>(

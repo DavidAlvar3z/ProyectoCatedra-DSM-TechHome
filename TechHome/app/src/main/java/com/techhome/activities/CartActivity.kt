@@ -48,14 +48,14 @@ class CartActivity : AppCompatActivity() {
         cartAdapter = CartAdapter(mutableListOf(),
             onQuantityChange = { item, newQuantity ->
                 cartRepository.updateQuantity(
-                    getUserId(), item.productId, newQuantity,
+                    getUserId(), item.productSku, newQuantity,
                     onSuccess = { loadCartItems() },
                     onError = { showError(it) }
                 )
             },
             onRemove = { item ->
                 cartRepository.removeFromCart(
-                    getUserId(), item.productId,
+                    getUserId(), item.productSku,
                     onSuccess = { loadCartItems() },
                     onError = { showError(it) }
                 )

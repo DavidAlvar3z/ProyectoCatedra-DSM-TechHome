@@ -1,104 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA">
+    android:background="@color/background"
+    tools:context=".activities.SearchActivity">
 
-    <!-- Barra superior moderna -->
     <LinearLayout
-        android:id="@+id/llTopBar"
+        android:id="@+id/llSearchBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:elevation="8dp"
+        android:background="@color/primary"
+        android:elevation="4dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="12dp"
-        android:paddingTop="14dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="14dp"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/btnBack"
+        <androidx.cardview.widget.CardView
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Volver"
-            android:src="@drawable/ic_arrow_back" />
+            android:layout_marginEnd="12dp"
+            app:cardBackgroundColor="#40FFFFFF"
+            app:cardCornerRadius="22dp"
+            app:cardElevation="0dp">
 
-        <!-- Barra de búsqueda moderna -->
-        <com.google.android.material.textfield.TextInputLayout
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Volver"
+                android:padding="10dp"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/text_on_primary" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
-            app:boxBackgroundColor="#F5F5F5"
-            app:boxBackgroundMode="filled"
-            app:boxCornerRadiusBottomEnd="14dp"
-            app:boxCornerRadiusBottomStart="14dp"
-            app:boxCornerRadiusTopEnd="14dp"
-            app:boxCornerRadiusTopStart="14dp"
-            app:boxStrokeWidth="0dp"
-            app:hintEnabled="false"
-            app:startIconDrawable="@drawable/ic_search"
-            app:startIconTint="@color/purple_600">
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etSearch"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/ic_search"
+                android:drawablePadding="12dp"
+                android:drawableTint="@color/text_tertiary"
+                android:fontFamily="sans-serif-medium"
                 android:hint="Buscar productos..."
-                android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:maxLines="1"
-                android:paddingTop="14dp"
-                android:paddingBottom="14dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_tertiary"
                 android:textSize="15sp" />
-        </com.google.android.material.textfield.TextInputLayout>
+        </androidx.cardview.widget.CardView>
 
-        <!-- Botón de filtros -->
-        <ImageButton
-            android:id="@+id/btnFilter"
+        <androidx.cardview.widget.CardView
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:layout_marginStart="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Filtros"
-            android:src="@drawable/ic_filter"
-            app:tint="@color/purple_600" />
+            android:layout_marginStart="12dp"
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="22dp"
+            app:cardElevation="0dp">
+
+            <ImageButton
+                android:id="@+id/btnFilter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Filtros"
+                android:padding="10dp"
+                android:src="@drawable/ic_filter"
+                app:tint="@color/primary" />
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
-    <!-- Contador de resultados -->
     <TextView
         android:id="@+id/tvResultsCount"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
         android:fontFamily="sans-serif-medium"
-        android:text="0 resultados"
-        android:textColor="#666666"
+        android:textColor="@color/text_secondary"
         android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llTopBar" />
+        app:layout_constraintTop_toBottomOf="@id/llSearchBar"
+        tools:text="125 resultados" />
 
-    <!-- RecyclerView de resultados -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvResults"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:clipToPadding="false"
-        android:padding="10dp"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvResultsCount" />
+        app:layout_constraintTop_toBottomOf="@id/tvResultsCount"
+        tools:listitem="@layout/item_product_local" />
 
-    <!-- Mensaje sin resultados moderno -->
     <LinearLayout
         android:id="@+id/tvNoResults"
         android:layout_width="wrap_content"
@@ -109,44 +124,72 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
 
-        <ImageView
+        <androidx.cardview.widget.CardView
             android:layout_width="140dp"
             android:layout_height="140dp"
-            android:alpha="0.25"
-            android:src="@drawable/ic_search"
-            app:tint="#CCCCCC" />
+            app:cardBackgroundColor="@color/surface_variant"
+            app:cardCornerRadius="70dp"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:alpha="0.4"
+                android:src="@drawable/ic_search"
+                app:tint="@color/text_tertiary" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:fontFamily="sans-serif-medium"
-            android:text="No se encontraron productos"
-            android:textColor="#666666"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            android:text="No se encontraron resultados"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:alpha="0.7"
-            android:text="Intenta ajustar los filtros"
-            android:textColor="#999999"
+            android:text="Intenta con otros términos de búsqueda"
+            android:textAlignment="center"
+            android:textColor="@color/text_secondary"
             android:textSize="14sp" />
     </LinearLayout>
 
-    <!-- ProgressBar -->
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/overlay_light"
+        android:clickable="true"
+        android:elevation="16dp"
+        android:focusable="true"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="16dp">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/primary" />
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,7 +43,6 @@ class ProductDetailActivity : AppCompatActivity() {
     private lateinit var cvStockInfo: CardView
     private lateinit var btnAddToCart: MaterialButton
     private lateinit var btnBuyNow: MaterialButton
-    private lateinit var btnViewOnBestBuy: MaterialButton
 
     private var currentProduct: ProductLocal? = null
 
@@ -88,7 +87,6 @@ class ProductDetailActivity : AppCompatActivity() {
         cvStockInfo = findViewById(R.id.cvStockInfo)
         btnAddToCart = findViewById(R.id.btnAddToCart)
         btnBuyNow = findViewById(R.id.btnBuyNow)
-        btnViewOnBestBuy = findViewById(R.id.btnViewOnBestBuy)
     }
 
     private fun setupListeners() {
@@ -102,10 +100,6 @@ class ProductDetailActivity : AppCompatActivity() {
 
         btnBuyNow.setOnClickListener {
             buyNow()
-        }
-
-        btnViewOnBestBuy.setOnClickListener {
-            openBestBuyUrl()
         }
     }
 

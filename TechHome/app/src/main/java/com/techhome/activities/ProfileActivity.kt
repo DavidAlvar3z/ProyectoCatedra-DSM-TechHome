@@ -1,11 +1,12 @@
 package com.techhome.activities
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -14,7 +15,12 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
@@ -22,12 +28,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.techhome.R
-import java.util.UUID
+import com.techhome.utils.FirebaseHelper
+import com.techhome.models.User
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ProfileActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var db: FirebaseFirestore
+    private lateinit var firestore: FirebaseFirestore
     private lateinit var storage: FirebaseStorage
 
     private lateinit var ivProfilePhoto: ImageView
@@ -42,19 +52,35 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var btnSave: MaterialButton
     private lateinit var btnLogout: MaterialButton
     private lateinit var progressBar: ProgressBar
+    private lateinit var progressContainer: View
 
-    private var selectedImageUri: Uri? = null
-    private var currentPhotoUrl: String = ""
+    private var currentPhotoUri: Uri? = null
+    private var photoUrl: String? = null
+    private var currentPhotoPath: String? = null
 
-    // Launcher para seleccionar imagen
+    companion object {
+        private const val REQUEST_CAMERA_PERMISSION = 100
+        private const val TAG = "ProfileActivity"
+    }
+
+    // Activity Result Launchers
     private val pickImageLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            selectedImageUri = result.data?.data
-            selectedImageUri?.let {
-                ivProfilePhoto.setImageURI(it)
-                Toast.makeText(this, "Foto seleccionada. Guarda los cambios.", Toast.LENGTH_SHORT).show()
+            result.data?.data?.let { uri ->
+                currentPhotoUri = uri
+                displayPhoto(uri)
+            }
+        }
+    }
+
+    private val takePictureLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            currentPhotoUri?.let { uri ->
+                displayPhoto(uri)
             }
         }
     }
@@ -64,12 +90,12 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
 
         auth = FirebaseAuth.getInstance()
-        db = FirebaseFirestore.getInstance()
+        firestore = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
 
         initViews()
-        setupSexoDropdown()
         setupListeners()
+        setupSexDropdown()
         loadUserData()
     }
 
@@ -86,81 +112,199 @@ class ProfileActivity : AppCompatActivity() {
         btnSave = findViewById(R.id.btnSave)
         btnLogout = findViewById(R.id.btnLogout)
         progressBar = findViewById(R.id.progressBar)
-    }
+        progressContainer = findViewById(R.id.progressContainer)
 
-    private fun setupSexoDropdown() {
-        val sexos = arrayOf("Masculino", "Femenino", "Otro", "Prefiero no decirlo")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, sexos)
-        actvSexo.setAdapter(adapter)
-    }
-
-    private fun setupListeners() {
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
             finish()
         }
+    }
 
+    private fun setupListeners() {
         fabChangePhoto.setOnClickListener {
-            openImagePicker()
+            showPhotoOptionsDialog()
         }
 
         btnSave.setOnClickListener {
-            saveUserData()
+            saveUserProfile()
         }
 
         btnLogout.setOnClickListener {
-            logout()
+            showLogoutDialog()
         }
     }
 
-    private fun openImagePicker() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        pickImageLauncher.launch(intent)
+    private fun setupSexDropdown() {
+        val sexOptions = arrayOf("Masculino", "Femenino", "Otro", "Prefiero no decir")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, sexOptions)
+        actvSexo.setAdapter(adapter)
     }
 
     private fun loadUserData() {
-        val user = auth.currentUser ?: return
-
+        val userId = auth.currentUser?.uid ?: return
         showLoading(true)
 
-        db.collection("users")
-            .document(user.uid)
+        firestore.collection("users").document(userId)
             .get()
             .addOnSuccessListener { document ->
                 showLoading(false)
-
                 if (document.exists()) {
-                    etNombre.setText(document.getString("nombre") ?: "")
-                    etApellido.setText(document.getString("apellido") ?: "")
-                    etEmail.setText(document.getString("email") ?: user.email)
-
-                    val edad = document.getLong("edad")?.toInt()
-                    if (edad != null && edad > 0) {
-                        etEdad.setText(edad.toString())
-                    }
-
-                    actvSexo.setText(document.getString("sexo") ?: "", false)
-                    etTelefono.setText(document.getString("telefono") ?: "")
-                    etBiografia.setText(document.getString("biografia") ?: "")
-
-                    currentPhotoUrl = document.getString("photoUrl") ?: ""
-                    // TODO: Cargar foto con Glide o Picasso si existe
-
-                    Log.d("ProfileActivity", "Datos cargados correctamente")
-                } else {
-                    Log.w("ProfileActivity", "Documento no existe, creando datos por defecto")
-                    etEmail.setText(user.email)
+                    val user = document.toObject(User::class.java)
+                    user?.let { displayUserData(it) }
                 }
             }
             .addOnFailureListener { e ->
                 showLoading(false)
-                Log.e("ProfileActivity", "Error al cargar datos: ${e.message}")
-                Toast.makeText(this, "Error al cargar perfil: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error al cargar datos: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 
-    private fun saveUserData() {
-        val user = auth.currentUser ?: return
+    private fun displayUserData(user: User) {
+        etNombre.setText(user.nombre)
+        etApellido.setText(user.apellido)
+        etEmail.setText(user.email)
+        etEdad.setText(user.edad?.toString() ?: "")
+        actvSexo.setText(user.sexo, false)
+        etTelefono.setText(user.telefono)
+        etBiografia.setText(user.biografia)
+        photoUrl = user.photoUrl
 
+        // Cargar foto de perfil
+        if (!user.photoUrl.isNullOrEmpty()) {
+            Glide.with(this)
+                .load(user.photoUrl)
+                .placeholder(R.drawable.ic_person)
+                .error(R.drawable.ic_person)
+                .circleCrop()
+                .into(ivProfilePhoto)
+        }
+    }
+
+    private fun showPhotoOptionsDialog() {
+        val options = arrayOf(
+            "Tomar foto",
+            "Elegir de galería",
+            "Ingresar URL de imagen",
+            "Eliminar foto"
+        )
+
+        AlertDialog.Builder(this)
+            .setTitle("Cambiar foto de perfil")
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> checkCameraPermissionAndTakePhoto()
+                    1 -> openGallery()
+                    2 -> showUrlInputDialog()
+                    3 -> removePhoto()
+                }
+            }
+            .show()
+    }
+
+    private fun checkCameraPermissionAndTakePhoto() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_GRANTED) {
+            openCamera()
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                REQUEST_CAMERA_PERMISSION
+            )
+        }
+    }
+
+    private fun openCamera() {
+        val photoFile = createImageFile()
+        photoFile?.let { file ->
+            currentPhotoUri = FileProvider.getUriForFile(
+                this,
+                "${applicationContext.packageName}.fileprovider",
+                file
+            )
+            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, currentPhotoUri)
+            takePictureLauncher.launch(takePictureIntent)
+        }
+    }
+
+    private fun createImageFile(): File? {
+        return try {
+            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+            val imageFileName = "JPEG_${timeStamp}_"
+            val storageDir = getExternalFilesDir(null)
+            File.createTempFile(imageFileName, ".jpg", storageDir).also {
+                currentPhotoPath = it.absolutePath
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error al crear archivo: ${e.message}", Toast.LENGTH_SHORT).show()
+            null
+        }
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        pickImageLauncher.launch(intent)
+    }
+
+    private fun showUrlInputDialog() {
+        val editText = TextInputEditText(this).apply {
+            hint = "https://ejemplo.com/imagen.jpg"
+            setPadding(50, 40, 50, 40)
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("Ingresar URL de imagen")
+            .setView(editText)
+            .setPositiveButton("Cargar") { _, _ ->
+                val url = editText.text.toString().trim()
+                if (url.isNotEmpty()) {
+                    photoUrl = url
+                    currentPhotoUri = null // Limpiar URI local
+                    Glide.with(this)
+                        .load(url)
+                        .placeholder(R.drawable.ic_person)
+                        .error(R.drawable.ic_person)
+                        .circleCrop()
+                        .into(ivProfilePhoto)
+                    Toast.makeText(this, "URL de imagen cargada", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun removePhoto() {
+        currentPhotoUri = null
+        photoUrl = null
+        ivProfilePhoto.setImageResource(R.drawable.ic_person)
+        Toast.makeText(this, "Foto eliminada", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun displayPhoto(uri: Uri) {
+        Glide.with(this)
+            .load(uri)
+            .placeholder(R.drawable.ic_person)
+            .error(R.drawable.ic_person)
+            .circleCrop()
+            .into(ivProfilePhoto)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CAMERA_PERMISSION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openCamera()
+            } else {
+                Toast.makeText(this, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun saveUserProfile() {
         val nombre = etNombre.text.toString().trim()
         val apellido = etApellido.text.toString().trim()
         val edadStr = etEdad.text.toString().trim()
@@ -173,93 +317,94 @@ class ProfileActivity : AppCompatActivity() {
             return
         }
 
+        val edad = edadStr.toIntOrNull()
+
         showLoading(true)
 
-        // Si hay una imagen seleccionada, subirla primero
-        if (selectedImageUri != null) {
-            uploadImage(user.uid) { photoUrl ->
-                saveToFirestore(user.uid, nombre, apellido, edadStr, sexo, telefono, biografia, photoUrl)
-            }
+        // Si hay una imagen local, subirla primero
+        if (currentPhotoUri != null) {
+            uploadPhotoAndSaveProfile(nombre, apellido, edad, sexo, telefono, biografia)
         } else {
-            saveToFirestore(user.uid, nombre, apellido, edadStr, sexo, telefono, biografia, currentPhotoUrl)
+            // Si solo hay URL o no hay foto, guardar directamente
+            saveProfileToFirestore(nombre, apellido, edad, sexo, telefono, biografia, photoUrl)
         }
     }
 
-    private fun uploadImage(uid: String, onSuccess: (String) -> Unit) {
-        val imageRef = storage.reference
-            .child("profile_photos")
-            .child("$uid/${UUID.randomUUID()}.jpg")
+    private fun uploadPhotoAndSaveProfile(
+        nombre: String,
+        apellido: String,
+        edad: Int?,
+        sexo: String,
+        telefono: String,
+        biografia: String
+    ) {
+        val userId = auth.currentUser?.uid ?: return
+        val storageRef = storage.reference.child("profile_photos/$userId.jpg")
 
-        selectedImageUri?.let { uri ->
-            imageRef.putFile(uri)
+        currentPhotoUri?.let { uri ->
+            storageRef.putFile(uri)
                 .addOnSuccessListener {
-                    imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-                        Log.d("ProfileActivity", "Imagen subida: $downloadUri")
-                        onSuccess(downloadUri.toString())
+                    storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                        saveProfileToFirestore(
+                            nombre, apellido, edad, sexo, telefono, biografia,
+                            downloadUri.toString()
+                        )
                     }
                 }
                 .addOnFailureListener { e ->
                     showLoading(false)
-                    Log.e("ProfileActivity", "Error al subir imagen: ${e.message}")
-                    Toast.makeText(this, "Error al subir imagen: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error al subir foto: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         }
     }
 
-    private fun saveToFirestore(
-        uid: String,
+    private fun saveProfileToFirestore(
         nombre: String,
         apellido: String,
-        edadStr: String,
+        edad: Int?,
         sexo: String,
         telefono: String,
         biografia: String,
-        photoUrl: String
+        photoUrl: String?
     ) {
-        val edad = edadStr.toIntOrNull() ?: 0
+        val userId = auth.currentUser?.uid ?: return
 
-        val userData = hashMapOf(
-            "uid" to uid,
+        val userUpdates = hashMapOf<String, Any?>(
             "nombre" to nombre,
             "apellido" to apellido,
-            "email" to (auth.currentUser?.email ?: ""),
             "edad" to edad,
             "sexo" to sexo,
             "telefono" to telefono,
             "biografia" to biografia,
-            "photoUrl" to photoUrl,
-            "fechaActualizacion" to System.currentTimeMillis()
+            "photoUrl" to photoUrl
         )
 
-        db.collection("users")
-            .document(uid)
-            .set(userData)
+        firestore.collection("users").document(userId)
+            .update(userUpdates)
             .addOnSuccessListener {
                 showLoading(false)
-                Log.d("ProfileActivity", "Perfil actualizado correctamente")
-                Toast.makeText(this, "✅ Perfil actualizado correctamente", Toast.LENGTH_SHORT).show()
-                currentPhotoUrl = photoUrl
-                selectedImageUri = null
+                Toast.makeText(this, "✓ Perfil actualizado correctamente", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
                 showLoading(false)
-                Log.e("ProfileActivity", "Error al guardar: ${e.message}")
-                Toast.makeText(this, "❌ Error al guardar: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error al guardar: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 
-    private fun logout() {
-        auth.signOut()
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
+    private fun showLogoutDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Cerrar Sesión")
+            .setMessage("¿Estás seguro de que deseas cerrar sesión?")
+            .setPositiveButton("Sí") { _, _ ->
+                FirebaseHelper.logout(this)
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 
     private fun showLoading(show: Boolean) {
-        progressBar.visibility = if (show) View.VISIBLE else View.GONE
+        progressContainer.visibility = if (show) View.VISIBLE else View.GONE
         btnSave.isEnabled = !show
         btnLogout.isEnabled = !show
-        fabChangePhoto.isEnabled = !show
     }
 }

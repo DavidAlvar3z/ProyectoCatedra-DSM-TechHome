@@ -98,7 +98,7 @@ class ProductsActivity : AppCompatActivity() {
         showMainLoading(true)
 
         // Verificar si hay productos en Firestore
-        repository.hasProductsInCategory(categoryId) { hasProducts ->
+        repository.hasProductsInCategory(categoryName) { hasProducts ->
             if (hasProducts) {
                 // Ya hay productos, cargarlos
                 loadProductsFromFirestore()
@@ -111,7 +111,7 @@ class ProductsActivity : AppCompatActivity() {
 
     private fun loadProductsFromFirestore() {
         repository.getProductsByCategory(
-            categoryId = categoryId,
+            category = categoryName,
             onSuccess = { products ->
                 showMainLoading(false)
 
