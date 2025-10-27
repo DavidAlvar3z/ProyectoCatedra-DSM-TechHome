@@ -58,6 +58,12 @@
     <!-- Carrito -->
     <string name="empty_cart">Tu carrito está vacío</string>
     <string name="start_shopping">Explorar Productos</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="shipping">Envío</string>
+    <string name="total">Total</string>
+    <string name="checkout">Finalizar compra</string>
+    <string name="quantity">Cantidad</string>
+    <string name="remove">Eliminar</string>
 
     <!-- Login -->
     <string name="login">Iniciar Sesión</string>
@@ -92,14 +98,6 @@
     <string name="description">Descripción</string>
     <string name="stock_info">Información de stock</string>
 
-    <!-- Carrito -->
-    <string name="subtotal">Subtotal</string>
-    <string name="shipping">Envío</string>
-    <string name="total">Total</string>
-    <string name="checkout">Finalizar compra</string>
-    <string name="quantity">Cantidad</string>
-    <string name="remove">Eliminar</string>
-
     <!-- Mensajes generales -->
     <string name="welcome">Bienvenido</string>
     <string name="loading">Cargando…</string>
@@ -132,4 +130,61 @@
     <!-- Estados de compra -->
     <string name="purchase_successful">¡Compra exitosa!</string>
     <string name="added_to_cart">Agregado al carrito</string>
+
+    <!-- ============================================ -->
+    <!-- CHECKOUT - Strings nuevos agregados aquí    -->
+    <!-- ============================================ -->
+
+    <!-- Checkout - General -->
+    <string name="producto">Producto</string>
+    <string name="volver">Volver</string>
+    <string name="finalizar_compra">Finalizar Compra</string>
+    <string name="productos">Productos</string>
+    <string name="direccion_envio">Dirección de Envío</string>
+    <string name="metodo_pago">Método de Pago</string>
+    <string name="resumen_pedido">Resumen del Pedido</string>
+    <string name="envio">Envío</string>
+    <string name="iva">IVA (13%)</string>
+    <string name="realizar_pedido">Realizar Pedido</string>
+
+    <!-- Checkout - Dirección -->
+    <string name="agregar_direccion">Agregar Dirección</string>
+    <string name="cambiar_direccion">Cambiar Dirección</string>
+    <string name="no_has_agregado_direccion">No has agregado una dirección</string>
+
+    <!-- Checkout - Pago -->
+    <string name="agregar_metodo_pago">Agregar Método de Pago</string>
+    <string name="cambiar_metodo">Cambiar Método</string>
+    <string name="no_has_seleccionado_metodo_pago">No has seleccionado un método de pago</string>
+
+    <!-- Checkout - Confirmación -->
+    <string name="confirmar_pedido">Confirmar Pedido</string>
+    <string name="deseas_confirmar_pedido">¿Deseas confirmar tu pedido?</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="pedido_exitoso">¡Pedido Exitoso! 🎉</string>
+    <string name="pedido_procesado_exitosamente">Tu pedido ha sido procesado exitosamente.</string>
+    <string name="numero_orden">Número de orden: #%1$s</string>
+    <string name="recibiras_correo_detalles">Recibirás un correo con los detalles.</string>
+    <string name="ver_pedido">Ver Pedido</string>
+    <string name="ir_al_inicio">Ir al Inicio</string>
+
+    <!-- Checkout - Labels con formato -->
+    <string name="total_a_pagar">Total a pagar: %1$s</string>
+    <string name="direccion_label">Dirección: %1$s</string>
+    <string name="pago_label">Pago: %1$s</string>
+    <string name="cantidad_label">Cantidad: %1$d</string>
+
+    <!-- Checkout - Errores de validación -->
+    <string name="error_selecciona_direccion">Por favor selecciona una dirección de envío</string>
+    <string name="error_direccion_incompleta">La dirección de envío está incompleta</string>
+    <string name="error_selecciona_metodo_pago">Por favor selecciona un método de pago</string>
+    <string name="error_datos_pago_incompletos">Los datos de pago están incompletos</string>
+    <string name="error_carrito_vacio">Tu carrito está vacío</string>
+    <string name="error_cargar_items">Error al cargar items: %1$s</string>
+    <string name="error_procesar_pedido">Error al procesar el pedido: %1$s</string>
+
+    <!-- Checkout - Mensajes de progreso -->
+    <string name="procesando_compra">Procesando compra…</string>
+    <string name="volviendo_inicio">Volviendo al inicio…</string>
 </resources>
