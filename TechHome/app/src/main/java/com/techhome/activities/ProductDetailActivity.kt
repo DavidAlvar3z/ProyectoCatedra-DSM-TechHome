@@ -1,7 +1,14 @@
 package com.techhome.activities
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -10,6 +17,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
@@ -18,14 +28,16 @@ import com.techhome.R
 import com.techhome.models.ProductLocal
 import com.techhome.models.StockStatus
 import com.techhome.repository.ProductRepository
-import com.techhome.repository.CartRepository // 🛒 Import agregado
+import com.techhome.repository.CartRepository
+import com.techhome.repository.FavoriteRepository
 import java.text.NumberFormat
 import java.util.Locale
 
 class ProductDetailActivity : AppCompatActivity() {
 
     private lateinit var repository: ProductRepository
-    private lateinit var cartRepository: CartRepository // 🛒 Repositorio del carrito
+    private lateinit var cartRepository: CartRepository
+    private lateinit var favoriteRepository: FavoriteRepository
 
     private lateinit var progressBar: ProgressBar
     private lateinit var ivProductImage: ImageView
@@ -43,12 +55,25 @@ class ProductDetailActivity : AppCompatActivity() {
     private lateinit var cvStockInfo: CardView
     private lateinit var btnAddToCart: MaterialButton
     private lateinit var btnBuyNow: MaterialButton
+    private lateinit var btnFavorite: ImageButton
 
     private var currentProduct: ProductLocal? = null
+    private var isFavorite = false
+
+    // Handler para cambiar ofertas cada 10 segundos
+    private val handler = Handler(Looper.getMainLooper())
+    private val discountRunnable = object : Runnable {
+        override fun run() {
+            updateDiscountBadge()
+            handler.postDelayed(this, 10000) // Cada 10 segundos
+        }
+    }
 
     companion object {
         const val EXTRA_PRODUCT_SKU = "product_sku"
         private const val TAG = "ProductDetailActivity"
+        private const val CHANNEL_ID = "purchase_channel"
+        private const val NOTIFICATION_ID = 1001
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,8 +81,10 @@ class ProductDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_product_detail)
 
         repository = ProductRepository()
-        cartRepository = CartRepository() // 🛒 Inicializamos el carrito
+        cartRepository = CartRepository()
+        favoriteRepository = FavoriteRepository()
 
+        createNotificationChannel()
         initViews()
         setupListeners()
 
@@ -68,6 +95,14 @@ class ProductDetailActivity : AppCompatActivity() {
             Toast.makeText(this, "Error: Producto no encontrado", Toast.LENGTH_SHORT).show()
             finish()
         }
+
+        // Iniciar cambio de ofertas
+        handler.post(discountRunnable)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(discountRunnable)
     }
 
     private fun initViews() {
@@ -87,6 +122,7 @@ class ProductDetailActivity : AppCompatActivity() {
         cvStockInfo = findViewById(R.id.cvStockInfo)
         btnAddToCart = findViewById(R.id.btnAddToCart)
         btnBuyNow = findViewById(R.id.btnBuyNow)
+        btnFavorite = findViewById(R.id.btnFavorite)
     }
 
     private fun setupListeners() {
@@ -101,6 +137,10 @@ class ProductDetailActivity : AppCompatActivity() {
         btnBuyNow.setOnClickListener {
             buyNow()
         }
+
+        btnFavorite.setOnClickListener {
+            toggleFavorite()
+        }
     }
 
     private fun loadProductDetails(sku: String) {
@@ -113,6 +153,7 @@ class ProductDetailActivity : AppCompatActivity() {
                 if (product != null) {
                     currentProduct = product
                     displayProduct(product)
+                    checkIfFavorite(sku)
                 } else {
                     Toast.makeText(this, "Producto no encontrado", Toast.LENGTH_SHORT).show()
                     finish()
@@ -122,6 +163,52 @@ class ProductDetailActivity : AppCompatActivity() {
                 showLoading(false)
                 Toast.makeText(this, error, Toast.LENGTH_LONG).show()
                 finish()
+            }
+        )
+    }
+
+    private fun checkIfFavorite(sku: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            favoriteRepository.isFavorite(user.uid, sku) { favorite ->
+                isFavorite = favorite
+                updateFavoriteButton()
+            }
+        }
+    }
+
+    private fun updateFavoriteButton() {
+        if (isFavorite) {
+            btnFavorite.setImageResource(R.drawable.ic_favorite_filled)
+            btnFavorite.setColorFilter(ContextCompat.getColor(this, R.color.error))
+        } else {
+            btnFavorite.setImageResource(R.drawable.ic_favorite_outline)
+            btnFavorite.setColorFilter(ContextCompat.getColor(this, R.color.text_secondary))
+        }
+    }
+
+    private fun toggleFavorite() {
+        val user = FirebaseAuth.getInstance().currentUser
+        val product = currentProduct
+
+        if (user == null) {
+            Toast.makeText(this, "Debes iniciar sesión para usar favoritos", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (product == null) return
+
+        favoriteRepository.toggleFavorite(
+            userId = user.uid,
+            product = product,
+            onSuccess = { added ->
+                isFavorite = added
+                updateFavoriteButton()
+                val message = if (added) "❤️ Agregado a favoritos" else "💔 Eliminado de favoritos"
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            },
+            onError = { error ->
+                Toast.makeText(this, "Error: $error", Toast.LENGTH_SHORT).show()
             }
         )
     }
@@ -139,7 +226,7 @@ class ProductDetailActivity : AppCompatActivity() {
                     android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
 
             chipDiscount.visibility = View.VISIBLE
-            chipDiscount.text = "${product.getDiscountPercentage()}% OFF"
+            updateDiscountBadge()
         } else {
             tvRegularPrice.visibility = View.GONE
             chipDiscount.visibility = View.GONE
@@ -158,6 +245,21 @@ class ProductDetailActivity : AppCompatActivity() {
         tvReviewCount.text = "(${product.reviewCount} reseñas)"
 
         updateStockUI(product)
+    }
+
+    private fun updateDiscountBadge() {
+        val product = currentProduct ?: return
+        val discount = product.getDiscountPercentage()
+        if (discount > 0) {
+            val messages = listOf(
+                "-$discount% OFF",
+                "¡OFERTA! -$discount%",
+                "🔥 AHORRA $discount%",
+                "⚡ -$discount% HOY",
+                "💥 DESCUENTO $discount%"
+            )
+            chipDiscount.text = messages.random()
+        }
     }
 
     private fun updateStockUI(product: ProductLocal) {
@@ -189,7 +291,6 @@ class ProductDetailActivity : AppCompatActivity() {
         }
     }
 
-    // 🛒 Nueva versión con integración de carrito y actualización de stock
     private fun addToCart() {
         currentProduct?.let { product ->
             val user = FirebaseAuth.getInstance().currentUser
@@ -231,13 +332,20 @@ class ProductDetailActivity : AppCompatActivity() {
 
     private fun buyNow() {
         currentProduct?.let { product ->
+            showLoading(true)
+
             repository.decreaseStock(
                 sku = product.sku,
                 quantity = 1,
                 onSuccess = { newStock ->
+                    showLoading(false)
+
+                    // Enviar notificación de compra
+                    sendPurchaseNotification(product)
+
                     Toast.makeText(
                         this,
-                        "🎉 Compra realizada con éxito!",
+                        "🎉 ¡Compra realizada con éxito!",
                         Toast.LENGTH_LONG
                     ).show()
 
@@ -246,23 +354,62 @@ class ProductDetailActivity : AppCompatActivity() {
                     updateStockUI(updatedProduct)
                 },
                 onError = { error ->
+                    showLoading(false)
                     Toast.makeText(this, error, Toast.LENGTH_LONG).show()
                 }
             )
         }
     }
 
-    private fun openBestBuyUrl() {
-        currentProduct?.let { product ->
-            if (product.url.isNotEmpty()) {
-                try {
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = android.net.Uri.parse(product.url)
-                    startActivity(intent)
-                } catch (e: Exception) {
-                    Toast.makeText(this, "Error al abrir enlace", Toast.LENGTH_SHORT).show()
-                }
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Compras"
+            val descriptionText = "Notificaciones de compras realizadas"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
             }
+
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun sendPurchaseNotification(product: ProductLocal) {
+        val intent = Intent(this, CartActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val formatter = NumberFormat.getCurrencyInstance(Locale.US)
+
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_shopping_bag)
+            .setContentTitle("🎉 ¡Compra Exitosa!")
+            .setContentText("${product.name} - ${formatter.format(product.salePrice)}")
+            .setStyle(NotificationCompat.BigTextStyle()
+                .bigText("Has comprado: ${product.name}\nPrecio: ${formatter.format(product.salePrice)}\n\n¡Gracias por tu compra!"))
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .build()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+            ) {
+                NotificationManagerCompat.from(this).notify(NOTIFICATION_ID, notification)
+            }
+        } else {
+            NotificationManagerCompat.from(this).notify(NOTIFICATION_ID, notification)
         }
     }
 

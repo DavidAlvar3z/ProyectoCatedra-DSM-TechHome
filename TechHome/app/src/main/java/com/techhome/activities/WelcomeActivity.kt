@@ -2,31 +2,39 @@ package com.techhome.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.techhome.R
 import com.techhome.adapters.CategoryAdapter
+import com.techhome.adapters.ProductLocalAdapter
 import com.techhome.models.Category
+import com.techhome.repository.ProductRepository
 
 class WelcomeActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var rvCategories: RecyclerView
+    private lateinit var rvSuggested: RecyclerView
     private lateinit var categoryAdapter: CategoryAdapter
+    private lateinit var suggestedAdapter: ProductLocalAdapter
+    private lateinit var progressBarSuggested: ProgressBar
+    private lateinit var cvSuggestedSection: CardView
+
+    private val productRepository = ProductRepository()
 
     companion object {
-        // Categorías originales
         const val CATEGORY_CELL_PHONES = "abcat0800000"
         const val CATEGORY_LAPTOPS = "abcat0502000"
         const val CATEGORY_AUDIO = "abcat0200000"
         const val CATEGORY_SMARTWATCHES = "pcmcat748302045979"
-
-        // Nuevas categorías
         const val CATEGORY_TABLETS = "pcmcat209000050006"
         const val CATEGORY_CAMERAS = "abcat0401000"
         const val CATEGORY_TV = "abcat0101000"
@@ -45,21 +53,29 @@ class WelcomeActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
+        initViews()
         setupUI()
         setupBottomNavigation()
         setupCategories()
+        loadSuggestedProducts()
+    }
+
+    private fun initViews() {
+        rvCategories = findViewById(R.id.rvCategories)
+        rvSuggested = findViewById(R.id.rvSuggested)
+        progressBarSuggested = findViewById(R.id.progressBarSuggested)
+        cvSuggestedSection = findViewById(R.id.cvSuggestedSection)
     }
 
     private fun setupUI() {
         val user = auth.currentUser
         user?.let {
-            findViewById<TextView>(R.id.tvWelcomeMessage)?.text = "Bienvenido a HomeTech"
+            findViewById<TextView>(R.id.tvWelcomeMessage)?.text = "Bienvenido a TechHome"
             findViewById<TextView>(R.id.tvUserEmail)?.text = it.email
         }
     }
 
     private fun setupCategories() {
-        rvCategories = findViewById(R.id.rvCategories)
         rvCategories.layoutManager = GridLayoutManager(this, 2)
 
         val categories = listOf(
@@ -85,10 +101,47 @@ class WelcomeActivity : AppCompatActivity() {
         rvCategories.adapter = categoryAdapter
     }
 
+    private fun loadSuggestedProducts() {
+        progressBarSuggested.visibility = View.VISIBLE
+        cvSuggestedSection.visibility = View.VISIBLE
+
+        productRepository.getSuggestedProducts(
+            limit = 10,
+            onSuccess = { products ->
+                progressBarSuggested.visibility = View.GONE
+
+                if (products.isNotEmpty()) {
+                    setupSuggestedProducts(products)
+                } else {
+                    cvSuggestedSection.visibility = View.GONE
+                }
+            },
+            onError = { error ->
+                progressBarSuggested.visibility = View.GONE
+                cvSuggestedSection.visibility = View.GONE
+            }
+        )
+    }
+
+    private fun setupSuggestedProducts(products: List<com.techhome.models.ProductLocal>) {
+        rvSuggested.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        suggestedAdapter = ProductLocalAdapter(products) { product ->
+            openProductDetail(product.sku)
+        }
+        rvSuggested.adapter = suggestedAdapter
+    }
+
     private fun openCategory(categoryId: String, categoryName: String) {
         val intent = Intent(this, ProductsActivity::class.java).apply {
             putExtra(ProductsActivity.EXTRA_CATEGORY_ID, categoryId)
             putExtra(ProductsActivity.EXTRA_CATEGORY_NAME, categoryName)
+        }
+        startActivity(intent)
+    }
+
+    private fun openProductDetail(sku: String) {
+        val intent = Intent(this, ProductDetailActivity::class.java).apply {
+            putExtra(ProductDetailActivity.EXTRA_PRODUCT_SKU, sku)
         }
         startActivity(intent)
     }
@@ -102,19 +155,29 @@ class WelcomeActivity : AppCompatActivity() {
                     R.id.nav_home -> true
                     R.id.nav_search -> {
                         startActivity(Intent(this, SearchActivity::class.java))
-                        true
+                        false
                     }
-                    R.id.nav_profile -> {
-                        startActivity(Intent(this, ProfileActivity::class.java))
-                        true
+                    R.id.nav_favorites -> {
+                        startActivity(Intent(this, FavoritesActivity::class.java))
+                        false
                     }
                     R.id.nav_cart -> {
                         startActivity(Intent(this, CartActivity::class.java))
-                        true
+                        false
+                    }
+                    R.id.nav_profile -> {
+                        startActivity(Intent(this, ProfileActivity::class.java))
+                        false
                     }
                     else -> false
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Asegurar que el ítem de inicio esté seleccionado al volver
+        findViewById<BottomNavigationView>(R.id.llBottomNav)?.selectedItemId = R.id.nav_home
     }
 }
