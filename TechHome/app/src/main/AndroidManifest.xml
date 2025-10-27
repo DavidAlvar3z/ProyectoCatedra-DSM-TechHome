@@ -5,6 +5,7 @@
     <!-- Permisos -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
@@ -78,6 +79,12 @@
             android:exported="false"
             android:theme="@style/Theme.TechHome.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateVisible" />
+
+        <!-- Favorites Activity -->
+        <activity
+            android:name=".activities.FavoritesActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <!-- Profile Activity -->
         <activity
