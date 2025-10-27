@@ -1,5 +1,6 @@
 package com.techhome.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -132,10 +133,28 @@ class CartActivity : AppCompatActivity() {
     private fun setupListeners() {
         Log.d(TAG, "🔧 Configurando listeners...")
 
-        // Botón finalizar compra
+        // ✅ Botón finalizar compra - ABRIR CHECKOUT
         btnCheckout.setOnClickListener {
-            Log.d(TAG, "🛒 Botón checkout presionado")
-            Toast.makeText(this, "Procesando compra... 🛒", Toast.LENGTH_SHORT).show()
+            Log.d(TAG, "🛒 Botón checkout presionado - Abriendo CheckoutActivity")
+
+            // Verificar que hay productos en el carrito
+            if (cartAdapter.itemCount > 0) {
+                try {
+                    val intent = Intent(this, CheckoutActivity::class.java)
+                    startActivity(intent)
+                    Log.d(TAG, "✅ CheckoutActivity iniciada correctamente")
+                } catch (e: Exception) {
+                    Log.e(TAG, "❌ Error al abrir CheckoutActivity: ${e.message}", e)
+                    Toast.makeText(
+                        this,
+                        "Error al abrir checkout. Verifica que CheckoutActivity esté en el Manifest",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            } else {
+                Log.w(TAG, "⚠️ Carrito vacío, no se puede proceder al checkout")
+                Toast.makeText(this, "Tu carrito está vacío", Toast.LENGTH_SHORT).show()
+            }
         }
 
         Log.d(TAG, "✅ Listeners configurados")
@@ -146,7 +165,7 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun loadCartItems() {
-        Log.d(TAG, "📥 Cargando items del carrito...")
+        Log.d(TAG, "🔥 Cargando items del carrito...")
 
         cartRepository.getCartItems(
             getUserId(),
@@ -168,7 +187,7 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun showEmptyCart() {
-        Log.d(TAG, "📭 Mostrando carrito vacío")
+        Log.d(TAG, "🔭 Mostrando carrito vacío")
 
         layoutEmptyCart.visibility = View.VISIBLE
         rvCartItems.visibility = View.GONE
@@ -209,7 +228,8 @@ class CartActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "🔄 onResume()")
+        Log.d(TAG, "🔄 onResume() - Recargando carrito")
+        loadCartItems()
     }
 
     override fun onPause() {
