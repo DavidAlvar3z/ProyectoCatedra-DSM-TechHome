@@ -58,4 +58,78 @@
     <!-- Carrito -->
     <string name="empty_cart">Tu carrito está vacío</string>
     <string name="start_shopping">Explorar Productos</string>
+
+    <!-- Login -->
+    <string name="login">Iniciar Sesión</string>
+    <string name="need_account">¿Necesitas una cuenta?</string>
+    <string name="sign_in_with_google">Continuar con Google</string>
+    <string name="or">o</string>
+
+    <!-- Registro -->
+    <string name="register">Registrarse</string>
+    <string name="have_account">¿Ya tienes cuenta? Inicia sesión</string>
+
+    <!-- Perfil -->
+    <string name="edit_profile">Editar Perfil</string>
+    <string name="save">Guardar</string>
+    <string name="logout">Cerrar Sesión</string>
+    <string name="age">Edad</string>
+    <string name="gender">Sexo</string>
+    <string name="phone">Teléfono</string>
+    <string name="bio">Biografía</string>
+    <string name="change_photo">Cambiar foto</string>
+
+    <!-- Productos -->
+    <string name="add_to_cart">Agregar al carrito</string>
+    <string name="buy_now">Comprar ahora</string>
+    <string name="in_stock">En Stock</string>
+    <string name="out_of_stock">Agotado</string>
+    <string name="product_details">Detalles del producto</string>
+    <string name="brand">Marca</string>
+    <string name="model">Modelo</string>
+    <string name="rating">Calificación</string>
+    <string name="reviews">reseñas</string>
+    <string name="description">Descripción</string>
+    <string name="stock_info">Información de stock</string>
+
+    <!-- Carrito -->
+    <string name="subtotal">Subtotal</string>
+    <string name="shipping">Envío</string>
+    <string name="total">Total</string>
+    <string name="checkout">Finalizar compra</string>
+    <string name="quantity">Cantidad</string>
+    <string name="remove">Eliminar</string>
+
+    <!-- Mensajes generales -->
+    <string name="welcome">Bienvenido</string>
+    <string name="loading">Cargando…</string>
+    <string name="error">Error</string>
+    <string name="success">Éxito</string>
+    <string name="cancel">Cancelar</string>
+    <string name="ok">Aceptar</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_search">Buscar</string>
+    <string name="nav_cart">Carrito</string>
+    <string name="nav_profile">Perfil</string>
+
+    <!-- 🔥 CRÍTICO: Firebase Google Sign-In -->
+    <!-- ⚠️ REEMPLAZA "TU_CLIENT_ID_AQUI" CON TU CLIENT ID REAL DE FIREBASE -->
+    <string name="default_web_client_id" translatable="false">TU_CLIENT_ID_AQUI</string>
+
+    <!-- Sugerencias -->
+    <string name="suggested_products">Productos Sugeridos</string>
+    <string name="view_all">Ver todo</string>
+
+    <!-- Favoritos -->
+    <string name="favorites">Favoritos</string>
+    <string name="add_to_favorites">Agregar a favoritos</string>
+    <string name="remove_from_favorites">Quitar de favoritos</string>
+
+    <!-- Estados de compra -->
+    <string name="purchase_successful">¡Compra exitosa!</string>
+    <string name="added_to_cart">Agregado al carrito</string>
 </resources>
