@@ -21,7 +21,9 @@ class ProductRepository {
         private const val TAG = "ProductRepository"
     }
 
-    // ✅ MÉTODO PARA SEARCHACTIVITY
+    /**
+     * Obtener todos los productos para SearchActivity
+     */
     fun getAllProducts(
         onSuccess: (List<ProductLocal>) -> Unit,
         onError: (String) -> Unit
@@ -40,7 +42,9 @@ class ProductRepository {
             }
     }
 
-    // Sincronizar productos con PAGINACIÓN
+    /**
+     * Sincronizar productos con paginación desde Best Buy API
+     */
     fun syncProductsFromBestBuy(
         categoryId: String,
         categoryName: String,
@@ -89,6 +93,9 @@ class ProductRepository {
             })
     }
 
+    /**
+     * Guardar productos en Firestore
+     */
     private fun saveProductsToFirestore(
         bestBuyProducts: List<com.techhome.network.Product>,
         categoryName: String,
@@ -137,7 +144,9 @@ class ProductRepository {
             }
     }
 
-    // Obtener productos por categoría desde Firestore
+    /**
+     * Obtener productos por categoría desde Firestore
+     */
     fun getProductsByCategory(
         category: String,
         onSuccess: (List<ProductLocal>) -> Unit,
@@ -158,7 +167,9 @@ class ProductRepository {
             }
     }
 
-    // Verificar si existen productos en una categoría
+    /**
+     * Verificar si existen productos en una categoría
+     */
     fun hasProductsInCategory(
         category: String,
         onResult: (Boolean) -> Unit
@@ -175,7 +186,9 @@ class ProductRepository {
             }
     }
 
-    // Obtener un producto específico
+    /**
+     * Obtener un producto específico por SKU
+     */
     fun getProductBySku(
         sku: String,
         onSuccess: (ProductLocal?) -> Unit,
@@ -194,7 +207,9 @@ class ProductRepository {
             }
     }
 
-    // Reducir stock (para simular compra)
+    /**
+     * Reducir stock (para simular compra)
+     */
     fun decreaseStock(
         sku: String,
         quantity: Int,
@@ -226,17 +241,62 @@ class ProductRepository {
             }
     }
 
+    /**
+     * Obtener productos sugeridos (con descuento y buen rating)
+     */
+    fun getSuggestedProducts(
+        limit: Int = 10,
+        onSuccess: (List<ProductLocal>) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        productsCollection
+            .whereGreaterThan("rating", 3.5)  // ⬅️ Cambiar de 4.0 a 3.5
+            .orderBy("rating", Query.Direction.DESCENDING)
+            .limit(limit.toLong())
+            .get()
+            .addOnSuccessListener { documents ->
+                val products = documents.toObjects(ProductLocal::class.java)
+                    .filter { it.stock > 0 && it.getDiscountPercentage() > 0 }
+                Log.d(TAG, "📦 Productos sugeridos obtenidos: ${products.size}")
+
+                // Si no hay productos con descuento, devolver todos los disponibles
+                if (products.isEmpty()) {
+                    val allProducts = documents.toObjects(ProductLocal::class.java)
+                        .filter { it.stock > 0 }
+                    Log.d(TAG, "⚠️ Sin productos con descuento. Mostrando ${allProducts.size} disponibles")
+                    onSuccess(allProducts)
+                } else {
+                    onSuccess(products)
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "❌ Error al obtener productos sugeridos", e)
+                onError("Error: ${e.message}")
+            }
+    }
+
+    /**
+     * Generar descripción genérica
+     */
     private fun generateDescription(name: String): String {
         return "Descubre el $name, un producto de alta calidad con las últimas características tecnológicas. " +
                 "Perfecto para tu hogar u oficina. Garantía incluida."
     }
 
+    /**
+     * Extraer marca del nombre del producto
+     */
     private fun extractBrand(name: String): String {
-        val brands = listOf("Apple", "Samsung", "Sony", "LG", "HP", "Dell", "Lenovo",
-            "Asus", "Bose", "JBL", "Canon", "Nikon", "Microsoft", "Google", "Xiaomi")
+        val brands = listOf(
+            "Apple", "Samsung", "Sony", "LG", "HP", "Dell", "Lenovo",
+            "Asus", "Bose", "JBL", "Canon", "Nikon", "Microsoft", "Google", "Xiaomi"
+        )
         return brands.firstOrNull { name.contains(it, ignoreCase = true) } ?: "Generic"
     }
 
+    /**
+     * Extraer modelo del nombre del producto
+     */
     private fun extractModel(name: String): String {
         val modelRegex = Regex("[A-Z0-9]{2,}[-]?[A-Z0-9]+")
         return modelRegex.find(name)?.value ?: "Standard"
