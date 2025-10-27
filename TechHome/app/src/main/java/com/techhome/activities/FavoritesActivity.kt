@@ -274,4 +274,4 @@ class FavoritesActivity : AppCompatActivity() {
         super.onDestroy()
         Log.d(TAG, "💀 onDestroy()")
     }
-}
+} 
