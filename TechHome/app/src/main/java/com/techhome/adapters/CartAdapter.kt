@@ -29,9 +29,13 @@ class CartAdapter(
         val tvSubtotal: TextView = itemView.findViewById(R.id.tvSubtotal)
         val btnAdd: ImageButton = itemView.findViewById(R.id.btnAdd)
         val btnSubtract: ImageButton = itemView.findViewById(R.id.btnSubtract)
-        val btnRemove: View = itemView.findViewById(R.id.btnRemove)
-
-
+        val btnRemove: View = itemView.findViewById(R.id.btnRemove) // CardView que contiene el botón
+        val btnRemoveInner: ImageButton? = try {
+            // Intentar obtener el ImageButton dentro del CardView
+            (btnRemove as? ViewGroup)?.getChildAt(0) as? ImageButton
+        } catch (e: Exception) {
+            null
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
@@ -70,10 +74,16 @@ class CartAdapter(
             }
         }
 
-        // Botón eliminar
-        holder.btnRemove.setOnClickListener {
+        // ✅ SOLUCIÓN: Asignar listener tanto al CardView como al ImageButton
+        val removeClickListener = View.OnClickListener {
             onRemove(item)
         }
+
+        // Asignar al CardView
+        holder.btnRemove.setOnClickListener(removeClickListener)
+
+        // Y también al ImageButton interno si existe
+        holder.btnRemoveInner?.setOnClickListener(removeClickListener)
     }
 
     override fun getItemCount(): Int = cartItems.size
@@ -95,6 +105,7 @@ class CartAdapter(
         if (position != -1) {
             cartItems.removeAt(position)
             notifyItemRemoved(position)
+            notifyItemRangeChanged(position, cartItems.size)
         }
     }
 
